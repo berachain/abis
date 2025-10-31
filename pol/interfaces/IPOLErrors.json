@@ -1,0 +1,493 @@
+[
+  {
+    "type": "error",
+    "name": "AmountGreaterThanReward",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "AmountLessThanMinIncentiveRate",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "CannotRecoverIncentiveToken",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "CannotRecoverRewardToken",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "CannotRecoverStakingToken",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "CommissionChangeAlreadyQueued",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "CommissionNotQueuedOrDelayNotPassed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "DepositNotMultipleOfGwei",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "DepositValueTooHigh",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "DonateAmountLessThanPayoutAmount",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "DuplicateReceiver",
+    "inputs": [
+      {
+        "name": "receiver",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "DurationChangeNotAllowed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "IncentiveRateTooHigh",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "IndexOutOfRange",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsolventReward",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsufficientDelegateStake",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsufficientDeposit",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsufficientIncentiveTokens",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsufficientNativeValue",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsufficientSelfStake",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsufficientStake",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidActivateBoostDelay",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidArray",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidBaseRate",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidBoostMultiplier",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidCommissionChangeDelay",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidCommissionValue",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidCredentialsLength",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidDistribution",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidDropBoostDelay",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidIncentiveFeeRate",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidIncentiveRate",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidMaxIncentiveTokensCount",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidMaxWeightPerVault",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidMerkleRoot",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidMinBoostedRewardRate",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidProof",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidPubKeyLength",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidRewardAllocationWeights",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidRewardClaimDelay",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidRewardConvexity",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidRewardDuration",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidRewardRate",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidSignatureLength",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidStartBlock",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidToken",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidWeight",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidateDefaultRewardAllocation",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvariantCheckFailed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "MaxNumWeightsPerRewardAllocationIsZero",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "MethodNotAllowed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "MinIncentiveRateIsZero",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NonTransferable",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotAContract",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotApprovedSender",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotBGT",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotBlockRewardController",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotDelegate",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotDistributor",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotEnoughBalance",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotEnoughBoostedBalance",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotEnoughTime",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotFactoryVault",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotFeeCollector",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotIncentiveManager",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotNewOperator",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotOperator",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotRewardAllocator",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotRewardDurationManager",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotRewardVaultManager",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotSystemAddress",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotWBERAStakerVault",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotWhitelistedVault",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "OnlyNFTOwnerAllowed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "OnlySystemCallAllowed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "OperatorAlreadySet",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "PayoutAmountIsZero",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "RewardAllocationAlreadyQueued",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "RewardAllocationBlockDelayTooLarge",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "RewardCycleNotEnded",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "RewardDurationCoolDownPeriodNotPassed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "RewardInactive",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "RewardsDurationIsZero",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "StakeAmountIsZero",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TimestampAlreadyProcessed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TokenAlreadyWhitelistedOrLimitReached",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TokenNotWhitelisted",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TooManyWeights",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TotalSupplyOverflow",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "UnauthorizedETHTransfer",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "WithdrawAmountIsZero",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "WithdrawalAlreadyRequested",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "WithdrawalNotReady",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "WithdrawalNotRequested",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ZeroAddress",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ZeroOperatorOnFirstDeposit",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ZeroPercentageWeight",
+    "inputs": []
+  }
+]
