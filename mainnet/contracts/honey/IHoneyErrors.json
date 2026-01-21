@@ -1,0 +1,230 @@
+[
+  {
+    "type": "error",
+    "name": "AmountOutOfRange",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "AssetIsBadCollateral",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "AssetIsNotBadCollateral",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "AssetNotRegistered",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "BlacklistedWallet",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "CapCanCauseDenialOfService",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ExceedGlobalCap",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ExceedRelativeCap",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsufficientAssets",
+    "inputs": [
+      {
+        "name": "assets",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "shares",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "InsufficientBalanceToPayPythFee",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsufficientRecapitalizeAmount",
+    "inputs": [
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "InvalidCustodyInfoInput",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "LiquidationDisabled",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "LiquidationWithReferenceCollateral",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "MismatchedOwner",
+    "inputs": [
+      {
+        "name": "owner",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "expectedOwner",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "NotFactory",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotPegged",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "OverOneHundredPercentRate",
+    "inputs": [
+      {
+        "name": "rate",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "RecapitalizeNotNeeded",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "UnauthorizedCaller",
+    "inputs": [
+      {
+        "name": "caller",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "expectedCaller",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "UnderNinetyEightPercentRate",
+    "inputs": [
+      {
+        "name": "rate",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "UnexpectedBasketModeStatus",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "VaultAlreadyRegistered",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "VaultPaused",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ZeroAddress",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ZeroAmount",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ZeroWeight",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  }
+]
