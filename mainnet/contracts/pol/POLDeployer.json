@@ -1,0 +1,161 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "bgt",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "governance",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "beraChefSalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "blockRewardControllerSalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "distributorSalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "rewardVaultFactorySalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "rewardVaultSalt",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "_CREATE2_FACTORY",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "beraChef",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract BeraChef"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "blockRewardController",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract BlockRewardController"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "distributor",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract Distributor"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "rewardVaultFactory",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract RewardVaultFactory"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "error",
+    "name": "DeploymentFailed",
+    "inputs": []
+  }
+]

@@ -1,0 +1,136 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "governance",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "polFeeCollector",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "feeReceiver",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "honeySalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "honeyFactorySalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "honeyFactoryReaderSalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "priceOracle",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "_CREATE2_FACTORY",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "honey",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract Honey"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "honeyFactory",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract HoneyFactory"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "honeyFactoryReader",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract HoneyFactoryReader"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "error",
+    "name": "DeploymentFailed",
+    "inputs": []
+  }
+]

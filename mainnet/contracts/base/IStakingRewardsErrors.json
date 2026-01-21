@@ -1,0 +1,37 @@
+[
+  {
+    "type": "error",
+    "name": "InsolventReward",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsufficientStake",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "RewardCycleNotEnded",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "RewardsDurationIsZero",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "StakeAmountIsZero",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TotalSupplyOverflow",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "WithdrawAmountIsZero",
+    "inputs": []
+  }
+]
