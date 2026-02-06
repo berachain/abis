@@ -1,0 +1,141 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "governance",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "accountingOracleSalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "withdrawalVaultSalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "stakingPoolContractsFactorySalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "smartOperatorInitialImpl",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "stakingPoolInitialImpl",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "stakingRewardsVaultInitialImpl",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "incentiveCollectorInitialImpl",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "_CREATE2_FACTORY",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "accountingOracle",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract AccountingOracle"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "stakingPoolContractsFactory",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract StakingPoolContractsFactory"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "withdrawalVault",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract WithdrawalVault"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "error",
+    "name": "DeploymentFailed",
+    "inputs": []
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "type": "error",
+    "name": "BranchHasExtraItem",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "BranchHasMissingItem",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidValidatorPubkeyLength",
+    "inputs": []
+  }
+]

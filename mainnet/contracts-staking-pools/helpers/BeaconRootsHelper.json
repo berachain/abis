@@ -1,0 +1,100 @@
+[
+  {
+    "type": "function",
+    "name": "zeroValidatorBalanceGIndex",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint64",
+        "internalType": "uint64"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "zeroValidatorPubkeyGIndex",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint64",
+        "internalType": "uint64"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "zeroValidatorWithdrawalCredentialsGIndex",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint64",
+        "internalType": "uint64"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "event",
+    "name": "ZeroValidatorBalanceGIndexChanged",
+    "inputs": [
+      {
+        "name": "newZeroValidatorBalanceGIndex",
+        "type": "uint64",
+        "indexed": false,
+        "internalType": "uint64"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ZeroValidatorPubkeyGIndexChanged",
+    "inputs": [
+      {
+        "name": "newZeroValidatorPubkeyGIndex",
+        "type": "uint64",
+        "indexed": false,
+        "internalType": "uint64"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ZeroValidatorWithdrawalCredentialsGIndexChanged",
+    "inputs": [
+      {
+        "name": "newZeroValidatorWithdrawalCredentialsGIndex",
+        "type": "uint64",
+        "indexed": false,
+        "internalType": "uint64"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "IndexOutOfRange",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidBalance",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidBeaconBlockRoot",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidProof",
+    "inputs": []
+  }
+]
