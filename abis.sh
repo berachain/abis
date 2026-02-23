@@ -291,6 +291,12 @@ find "$SRC_DIR" -type d | while read -r dir; do
         filename=$(basename "$sol_file")
         contract_name="${filename%.sol}"
 
+        # Skip versioned contracts (e.g. MyContract_V1.sol, Token_V2.sol)
+        if [[ "$contract_name" == *_V* ]]; then
+            echo "  Skipping (versioned): ${relative_path:-.}/$contract_name"
+            continue
+        fi
+
         # Forge outputs compiled JSON to: out/<filename>/<contractname>.json
         out_json="$OUT_DIR/$filename/$contract_name.json"
 
