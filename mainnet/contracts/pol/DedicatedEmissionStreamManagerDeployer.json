@@ -1,0 +1,71 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "owner",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "distributor",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "beraChef",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "dedicatedEmissionStreamManagerSalt",
+        "type": "tuple",
+        "internalType": "struct Salt",
+        "components": [
+          {
+            "name": "proxy",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "implementation",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "_CREATE2_FACTORY",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "dedicatedEmissionStreamManager",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract DedicatedEmissionStreamManager"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "error",
+    "name": "DeploymentFailed",
+    "inputs": []
+  }
+]

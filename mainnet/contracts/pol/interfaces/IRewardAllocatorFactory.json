@@ -7,7 +7,7 @@
       {
         "name": "",
         "type": "tuple",
-        "internalType": "struct IBeraChef.RewardAllocation",
+        "internalType": "struct IRewardAllocation.RewardAllocation",
         "components": [
           {
             "name": "startBlock",
@@ -17,7 +17,7 @@
           {
             "name": "weights",
             "type": "tuple[]",
-            "internalType": "struct IBeraChef.Weight[]",
+            "internalType": "struct IRewardAllocation.Weight[]",
             "components": [
               {
                 "name": "receiver",
@@ -43,7 +43,7 @@
       {
         "name": "weights",
         "type": "tuple[]",
-        "internalType": "struct IBeraChef.Weight[]",
+        "internalType": "struct IRewardAllocation.Weight[]",
         "components": [
           {
             "name": "receiver",
@@ -69,7 +69,7 @@
         "name": "weights",
         "type": "tuple[]",
         "indexed": false,
-        "internalType": "struct IBeraChef.Weight[]",
+        "internalType": "struct IRewardAllocation.Weight[]",
         "components": [
           {
             "name": "receiver",
@@ -244,6 +244,11 @@
   },
   {
     "type": "error",
+    "name": "InvalidEmissionPerc",
+    "inputs": []
+  },
+  {
+    "type": "error",
     "name": "InvalidIncentiveFeeRate",
     "inputs": []
   },
@@ -320,6 +325,11 @@
   {
     "type": "error",
     "name": "InvalidStartBlock",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidTargetEmission",
     "inputs": []
   },
   {

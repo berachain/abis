@@ -84,6 +84,19 @@
   },
   {
     "type": "function",
+    "name": "dedicatedEmissionStreamManager",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IDedicatedEmissionStreamManager"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "distributeFor",
     "inputs": [
       {
@@ -329,6 +342,19 @@
   },
   {
     "type": "function",
+    "name": "setDedicatedEmissionStreamManager",
+    "inputs": [
+      {
+        "name": "_dedicatedEmissionStreamManager",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "setProposerIndexGIndex",
     "inputs": [
       {
@@ -402,6 +428,25 @@
       }
     ],
     "stateMutability": "view"
+  },
+  {
+    "type": "event",
+    "name": "DedicatedEmissionStreamManagerSet",
+    "inputs": [
+      {
+        "name": "oldDedicatedEmissionStreamManager",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newDedicatedEmissionStreamManager",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
   },
   {
     "type": "event",
@@ -785,6 +830,11 @@
   },
   {
     "type": "error",
+    "name": "InvalidEmissionPerc",
+    "inputs": []
+  },
+  {
+    "type": "error",
     "name": "InvalidIncentiveFeeRate",
     "inputs": []
   },
@@ -866,6 +916,11 @@
   {
     "type": "error",
     "name": "InvalidStartBlock",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidTargetEmission",
     "inputs": []
   },
   {

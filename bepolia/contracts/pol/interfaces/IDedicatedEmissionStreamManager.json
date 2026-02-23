@@ -1,35 +1,60 @@
 [
   {
     "type": "function",
-    "name": "getBaselineAllocation",
+    "name": "emissionPerc",
     "inputs": [],
     "outputs": [
       {
         "name": "",
-        "type": "tuple",
-        "internalType": "struct IRewardAllocation.RewardAllocation",
+        "type": "uint96",
+        "internalType": "uint96"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMaxEmission",
+    "inputs": [
+      {
+        "name": "vault",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "emission",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRewardAllocation",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct IRewardAllocation.Weight[]",
         "components": [
           {
-            "name": "startBlock",
-            "type": "uint64",
-            "internalType": "uint64"
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
           },
           {
-            "name": "weights",
-            "type": "tuple[]",
-            "internalType": "struct IRewardAllocation.Weight[]",
-            "components": [
-              {
-                "name": "receiver",
-                "type": "address",
-                "internalType": "address"
-              },
-              {
-                "name": "percentageNumerator",
-                "type": "uint96",
-                "internalType": "uint96"
-              }
-            ]
+            "name": "percentageNumerator",
+            "type": "uint96",
+            "internalType": "uint96"
           }
         ]
       }
@@ -38,10 +63,67 @@
   },
   {
     "type": "function",
-    "name": "setBaselineAllocation",
+    "name": "notifyEmission",
     "inputs": [
       {
-        "name": "weights",
+        "name": "vault",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setBeraChef",
+    "inputs": [
+      {
+        "name": "_beraChef",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setDistributor",
+    "inputs": [
+      {
+        "name": "_distributor",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setEmissionPerc",
+    "inputs": [
+      {
+        "name": "_emissionPerc",
+        "type": "uint96",
+        "internalType": "uint96"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setRewardAllocation",
+    "inputs": [
+      {
+        "name": "_rewardAllocation",
         "type": "tuple[]",
         "internalType": "struct IRewardAllocation.Weight[]",
         "components": [
@@ -62,11 +144,87 @@
     "stateMutability": "nonpayable"
   },
   {
-    "type": "event",
-    "name": "BaselineAllocationSet",
+    "type": "function",
+    "name": "setTargetEmission",
     "inputs": [
       {
-        "name": "weights",
+        "name": "vault",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_targetEmission",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "BeraChefSet",
+    "inputs": [
+      {
+        "name": "beraChef",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "DistributorSet",
+    "inputs": [
+      {
+        "name": "distributor",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "EmissionPercSet",
+    "inputs": [
+      {
+        "name": "newEmissionPerc",
+        "type": "uint96",
+        "indexed": false,
+        "internalType": "uint96"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "NotifyEmission",
+    "inputs": [
+      {
+        "name": "vault",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RewardAllocationSet",
+    "inputs": [
+      {
+        "name": "newRewardAllocation",
         "type": "tuple[]",
         "indexed": false,
         "internalType": "struct IRewardAllocation.Weight[]",
@@ -82,6 +240,25 @@
             "internalType": "uint96"
           }
         ]
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "TargetEmissionSet",
+    "inputs": [
+      {
+        "name": "vault",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "targetEmission",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
