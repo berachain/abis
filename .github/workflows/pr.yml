@@ -18,7 +18,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .nvmrc
+          node-version-file: packages/js/.nvmrc
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
@@ -34,7 +34,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .nvmrc
+          node-version-file: packages/js/.nvmrc
           cache: pnpm
 
       - name: Install Foundry
