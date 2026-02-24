@@ -1,0 +1,7 @@
+node_modules
+dist
+coverage
+.vitest
+src/generated
+.repos
+LICENSE

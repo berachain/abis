@@ -1,0 +1,38 @@
+{
+  "name": "@berachain/abis",
+  "version": "0.1.0-beta.1",
+  "description": "Typed ABI TypeScript package generated from Solidity artifacts",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.cjs",
+      "default": "./dist/*.mjs"
+    }
+  },
+  "scripts": {
+    "abi:generate": "tsx scripts/generate-abis.ts",
+    "build": "pnpm abi:generate && tsup",
+    "prepack": "pnpm abi:generate",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "abi:clean": "rm -rf .repos",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.4",
+    "@types/node": "24.1.0",
+    "fast-glob": "3.3.3",
+    "tsup": "8.5.1",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3",
+    "vitest": "4.0.18"
+  }
+}

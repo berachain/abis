@@ -1,0 +1,35 @@
+{
+  "outputDir": "src/generated/abi",
+  "mainSource": "contracts",
+  "reposDir": ".repos",
+  "onMissingRepo": "error",
+  "sources": [
+    {
+      "id": "contracts",
+      "repo": "berachain/contracts",
+      "ref": "main",
+      "buildCommand": "npm install && forge build",
+      "srcDir": "src",
+      "outDir": "out",
+      "excludePatterns": ["I*.sol", "*_V*.sol"]
+    },
+    {
+      "id": "staking-pools",
+      "repo": "berachain/contracts-staking-pools",
+      "ref": "main",
+      "buildCommand": "forge install && forge build",
+      "srcDir": "src",
+      "outDir": "out",
+      "excludePatterns": ["I*.sol", "*_V*.sol"]
+    },
+    {
+      "id": "bex",
+      "repo": "berachain/balancer-v2-monorepo",
+      "ref": "main",
+      "buildCommand": "forge install && forge build",
+      "srcDir": "src",
+      "outDir": "out",
+      "excludePatterns": ["I*.sol", "*_V*.sol"]
+    }
+  ]
+}
