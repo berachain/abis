@@ -20,6 +20,7 @@ jobs:
         with:
           node-version-file: packages/js/.nvmrc
           cache: pnpm
+          cache-dependency-path: packages/js/pnpm-lock.yaml
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
@@ -27,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
- 
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9
@@ -36,6 +37,7 @@ jobs:
         with:
           node-version-file: packages/js/.nvmrc
           cache: pnpm
+          cache-dependency-path: packages/js/pnpm-lock.yaml
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1

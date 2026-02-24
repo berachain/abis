@@ -68,6 +68,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
+          cache-dependency-path: packages/js/pnpm-lock.yaml
           registry-url: https://registry.npmjs.org
 
       - name: Install Foundry
