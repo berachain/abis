@@ -1,5 +1,9 @@
 name: Publish
 
+
+defaults:
+  run:
+    working-directory: packages/js
 on:
   workflow_dispatch:
     inputs:
@@ -50,8 +54,7 @@ jobs:
             echo "::error::Branch ${{ github.ref_name }} is not up to date with remote. Pull and push latest changes first."
             exit 1
           fi
-
-      - run: cd packages/js
+ 
 
       - name: Copy LICENSE
         run: |
@@ -63,7 +66,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: packages/js/.nvmrc
+          node-version-file: .nvmrc
           cache: pnpm
           registry-url: https://registry.npmjs.org
 

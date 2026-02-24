@@ -1,5 +1,8 @@
 name: CI
 
+defaults:
+  run:
+    working-directory: packages/js
 on:
   pull_request:
 
@@ -26,16 +29,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - run: cd packages/js
-
+ 
       - uses: pnpm/action-setup@v4
         with:
           version: 9
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: packages/js/.nvmrc
+          node-version-file: .nvmrc
           cache: pnpm
 
       - name: Install Foundry
