@@ -13,10 +13,20 @@ export type AbiSource = {
   repoPath?: string;
   /** Shell command to build the Solidity contracts (e.g. `"npm install && forge build"`). */
   buildCommand: string;
-  /** Solidity source directory relative to the repo root. Defaults to `"src"`. */
-  srcDir?: string;
-  /** Foundry artifact output directory relative to the repo root. Defaults to `"out"`. */
-  outDir?: string;
+  /**
+   * Solidity source directory relative to the repo root. Defaults to `"src"`.
+   *
+   * For monorepos with nested packages, pass an array of paths to select
+   * specific subdirectories (e.g. `["pkg/vault/contracts", "pkg/pool-weighted/contracts"]`).
+   */
+  srcDir?: string | string[];
+  /**
+   * Foundry artifact output directory relative to the repo root. Defaults to `"out"`.
+   *
+   * When `srcDir` is an array, `outDir` can be a single string (shared across all
+   * source directories) or an array of the same length for per-directory output paths.
+   */
+  outDir?: string | string[];
   /** Glob patterns for filenames to exclude (e.g. `["I*.sol", "*_V*.sol"]`). */
   excludePatterns?: string[];
 };

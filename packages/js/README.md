@@ -18,6 +18,38 @@ All exports are typed `as const` for full viem type inference.
 <!-- exports:start -->
 ```
 @berachain/abis
+├── bex/
+│   ├── assetManagers
+│   ├── assetTransfersHandler
+│   ├── balancerPoolToken
+│   ├── baseGeneralPool
+│   ├── baseMinimalSwapInfoPool
+│   ├── basePool
+│   ├── basePoolAuthorization
+│   ├── baseWeightedPool
+│   ├── composableStablePool
+│   ├── composableStablePoolFactory
+│   ├── composableStablePoolProtocolFees
+│   ├── composableStablePoolRates
+│   ├── composableStablePoolStorage
+│   ├── externalWeightedMath
+│   ├── fees
+│   ├── flashLoans
+│   ├── newBasePool
+│   ├── poolBalances
+│   ├── poolRegistry
+│   ├── poolTokens
+│   ├── protocolFeesCollector
+│   ├── recoveryMode
+│   ├── recoveryModeHelper
+│   ├── stablePoolAmplification
+│   ├── swaps
+│   ├── userBalance
+│   ├── vault
+│   ├── vaultAuthorization
+│   ├── weightedPool
+│   ├── weightedPoolFactory
+│   └── weightedPoolProtocolFees
 ├── pol/
 │   ├── beaconDeposit
 │   ├── beaconRootsHelper

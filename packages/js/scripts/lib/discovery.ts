@@ -66,15 +66,49 @@ export function extractArtifact(
 }
 
 /**
+ * Normalize `srcDir` and `outDir` from the config into parallel arrays.
+ *
+ * - Both scalar → single-element arrays.
+ * - `srcDir` array + `outDir` scalar → `outDir` is repeated.
+ * - Both arrays → must be the same length.
+ */
+export function normalizeDirs(
+  srcDir: string | string[] | undefined,
+  outDir: string | string[] | undefined,
+): { srcDirs: string[]; outDirs: string[] } {
+  const srcDirs = Array.isArray(srcDir) ? srcDir : [srcDir ?? "src"];
+  const outDirs = Array.isArray(outDir) ? outDir : [outDir ?? "out"];
+
+  if (srcDirs.length === 0) {
+    throw new Error("srcDir must not be an empty array");
+  }
+
+  if (outDirs.length > 1 && outDirs.length !== srcDirs.length) {
+    throw new Error(
+      `When both srcDir and outDir are arrays they must have the same length (srcDir: ${srcDirs.length}, outDir: ${outDirs.length})`,
+    );
+  }
+
+  // Expand a single outDir to match every srcDir entry.
+  const expandedOutDirs =
+    outDirs.length === 1 ? srcDirs.map(() => outDirs[0]) : outDirs;
+
+  return { srcDirs, outDirs: expandedOutDirs };
+}
+
+/**
  * Walk a source repo's Solidity directory and collect compiled artifacts.
  *
  * Discovery strategy:
  * 1. Optionally run the source's build command.
- * 2. Enumerate all `*.sol` files under the source's `srcDir`.
+ * 2. Enumerate all `*.sol` files under each of the source's `srcDir` entries.
  * 3. For each `.sol` file not matching `excludePatterns`, look for a
  *    matching Foundry artifact at `{outDir}/{Filename}.sol/{ContractName}.json`.
  * 4. Parse and validate each artifact, collecting warnings for missing
  *    or invalid entries.
+ *
+ * `srcDir` and `outDir` may each be a single string or an array of strings
+ * to support monorepos with multiple nested packages.
  *
  * @returns discovered artifacts and any warnings encountered.
  * @throws if the repo path does not exist and `onMissingRepo` is `"error"`.
@@ -98,52 +132,61 @@ export async function discoverArtifacts(
     await exec(source.buildCommand, { cwd: repoPath });
   }
 
-  const srcDir = path.join(repoPath, source.srcDir ?? "src");
-  const outDir = path.join(repoPath, source.outDir ?? "out");
+  const { srcDirs, outDirs } = normalizeDirs(source.srcDir, source.outDir);
   const excludePatterns = source.excludePatterns ?? [];
-
-  const solFiles = await fg(["**/*.sol"], {
-    cwd: srcDir,
-    onlyFiles: true,
-  });
-
-  solFiles.sort((a, b) => a.localeCompare(b));
 
   const warnings: string[] = [];
   const artifacts: DiscoveredArtifact[] = [];
 
-  for (const relSolPath of solFiles) {
-    const filename = path.basename(relSolPath);
+  for (let i = 0; i < srcDirs.length; i++) {
+    const srcDir = path.join(repoPath, srcDirs[i]);
+    const outDir = path.join(repoPath, outDirs[i]);
 
-    if (matchesAny(filename, excludePatterns)) {
+    if (!(await exists(srcDir))) {
+      warnings.push(`Source directory does not exist: ${srcDirs[i]}`);
       continue;
     }
 
-    const contractName = filename.replace(/\.sol$/, "");
-    const relDir = path.dirname(relSolPath);
-    const artifactPath = path.join(outDir, `${filename}/${contractName}.json`);
+    const solFiles = await fg(["**/*.sol"], {
+      cwd: srcDir,
+      onlyFiles: true,
+    });
 
-    if (!(await exists(artifactPath))) {
-      warnings.push(`No artifact found for ${relSolPath}`);
-      continue;
+    solFiles.sort((a, b) => a.localeCompare(b));
+
+    for (const relSolPath of solFiles) {
+      const filename = path.basename(relSolPath);
+
+      if (matchesAny(filename, excludePatterns)) {
+        continue;
+      }
+
+      const contractName = filename.replace(/\.sol$/, "");
+      const relDir = path.dirname(relSolPath);
+      const artifactPath = path.join(outDir, `${filename}/${contractName}.json`);
+
+      if (!(await exists(artifactPath))) {
+        warnings.push(`No artifact found for ${relSolPath}`);
+        continue;
+      }
+
+      const raw = await fs.readFile(artifactPath, "utf8");
+      let parsed: ArtifactLike;
+      try {
+        parsed = JSON.parse(raw) as ArtifactLike;
+      } catch {
+        warnings.push(`Skipping invalid JSON: ${artifactPath}`);
+        continue;
+      }
+
+      const extracted = extractArtifact(artifactPath, source.id, relDir, parsed);
+      if (!extracted) {
+        warnings.push(`Skipping artifact without ABI: ${relSolPath}`);
+        continue;
+      }
+
+      artifacts.push(extracted);
     }
-
-    const raw = await fs.readFile(artifactPath, "utf8");
-    let parsed: ArtifactLike;
-    try {
-      parsed = JSON.parse(raw) as ArtifactLike;
-    } catch {
-      warnings.push(`Skipping invalid JSON: ${artifactPath}`);
-      continue;
-    }
-
-    const extracted = extractArtifact(artifactPath, source.id, relDir, parsed);
-    if (!extracted) {
-      warnings.push(`Skipping artifact without ABI: ${relSolPath}`);
-      continue;
-    }
-
-    artifacts.push(extracted);
   }
 
   return { artifacts, warnings };

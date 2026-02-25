@@ -38,6 +38,18 @@ export async function loadConfig(configPath: string): Promise<AbiConfig> {
     if (source.repo && source.repoPath) {
       throw new Error(`Source "${source.id}" cannot specify both "repo" and "repoPath"`);
     }
+    if (Array.isArray(source.srcDir) && source.srcDir.length === 0) {
+      throw new Error(`Source "${source.id}": srcDir must not be an empty array`);
+    }
+    if (
+      Array.isArray(source.srcDir) &&
+      Array.isArray(source.outDir) &&
+      source.srcDir.length !== source.outDir.length
+    ) {
+      throw new Error(
+        `Source "${source.id}": when both srcDir and outDir are arrays they must have the same length`,
+      );
+    }
   }
 
   return {

@@ -130,6 +130,62 @@ describe("loadConfig", () => {
     expect(config.mainSource).toBe("contracts");
   });
 
+  it("accepts srcDir as an array", async () => {
+    const tmpDir = await makeTempDir("config-test-");
+    const configPath = path.join(tmpDir, "abi.config.json");
+    await fs.writeFile(
+      configPath,
+      JSON.stringify({
+        outputDir: "out",
+        sources: [
+          {
+            id: "bex",
+            repo: "org/monorepo",
+            buildCommand: "echo",
+            srcDir: ["pkg/vault/src", "pkg/pool/src"],
+            outDir: "out",
+          },
+        ],
+      }),
+    );
+    const config = await loadConfig(configPath);
+    expect(config.sources[0].srcDir).toEqual(["pkg/vault/src", "pkg/pool/src"]);
+  });
+
+  it("rejects empty srcDir array", async () => {
+    const tmpDir = await makeTempDir("config-test-");
+    const configPath = path.join(tmpDir, "abi.config.json");
+    await fs.writeFile(
+      configPath,
+      JSON.stringify({
+        outputDir: "out",
+        sources: [{ id: "test", repo: "org/repo", buildCommand: "echo", srcDir: [] }],
+      }),
+    );
+    await expect(loadConfig(configPath)).rejects.toThrow(/srcDir must not be an empty array/);
+  });
+
+  it("rejects mismatched srcDir and outDir array lengths", async () => {
+    const tmpDir = await makeTempDir("config-test-");
+    const configPath = path.join(tmpDir, "abi.config.json");
+    await fs.writeFile(
+      configPath,
+      JSON.stringify({
+        outputDir: "out",
+        sources: [
+          {
+            id: "test",
+            repo: "org/repo",
+            buildCommand: "echo",
+            srcDir: ["a", "b"],
+            outDir: ["x"],
+          },
+        ],
+      }),
+    );
+    await expect(loadConfig(configPath)).rejects.toThrow(/same length/);
+  });
+
   it("rejects missing outputDir", async () => {
     const tmpDir = await makeTempDir("config-test-");
     const configPath = path.join(tmpDir, "abi.config.json");

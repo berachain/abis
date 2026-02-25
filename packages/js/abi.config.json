@@ -25,10 +25,20 @@
     {
       "id": "bex",
       "repo": "berachain/balancer-v2-monorepo",
-      "ref": "main",
-      "buildCommand": "forge install && forge build",
-      "srcDir": "src",
-      "outDir": "out",
+      "ref": "master",
+      "buildCommand": "yarn && yarn workspace @balancer-labs/balancer-js build && yarn build ",
+      "srcDir": [
+        "pkg/vault/contracts",
+        "pkg/pool-weighted/contracts",
+        "pkg/pool-stable/contracts",
+        "pkg/pool-utils/contracts"
+      ],
+      "outDir": [
+        "pkg/vault/artifacts/contracts",
+        "pkg/pool-weighted/artifacts/contracts",
+        "pkg/pool-stable/artifacts/contracts",
+        "pkg/pool-utils/artifacts/contracts"
+      ],
       "excludePatterns": ["I*.sol", "*_V*.sol"]
     }
   ]

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { extractArtifact, matchesAny } from "./discovery";
+import { extractArtifact, matchesAny, normalizeDirs } from "./discovery";
 
 describe("matchesAny", () => {
   it("matches wildcard patterns", () => {
@@ -32,6 +32,48 @@ describe("matchesAny", () => {
     expect(matchesAny("IToken.sol", ["I*.sol", "*.s.sol"])).toBe(true);
     expect(matchesAny("Deploy.s.sol", ["I*.sol", "*.s.sol"])).toBe(true);
     expect(matchesAny("Token.sol", ["I*.sol", "*.s.sol"])).toBe(false);
+  });
+});
+
+describe("normalizeDirs", () => {
+  it("defaults to src and out when both undefined", () => {
+    const { srcDirs, outDirs } = normalizeDirs(undefined, undefined);
+    expect(srcDirs).toEqual(["src"]);
+    expect(outDirs).toEqual(["out"]);
+  });
+
+  it("wraps scalar strings into single-element arrays", () => {
+    const { srcDirs, outDirs } = normalizeDirs("contracts", "artifacts");
+    expect(srcDirs).toEqual(["contracts"]);
+    expect(outDirs).toEqual(["artifacts"]);
+  });
+
+  it("expands single outDir across all srcDirs", () => {
+    const { srcDirs, outDirs } = normalizeDirs(
+      ["pkg/vault/src", "pkg/pool/src"],
+      "out",
+    );
+    expect(srcDirs).toEqual(["pkg/vault/src", "pkg/pool/src"]);
+    expect(outDirs).toEqual(["out", "out"]);
+  });
+
+  it("pairs srcDir and outDir arrays of equal length", () => {
+    const { srcDirs, outDirs } = normalizeDirs(
+      ["pkg/vault/src", "pkg/pool/src"],
+      ["pkg/vault/out", "pkg/pool/out"],
+    );
+    expect(srcDirs).toEqual(["pkg/vault/src", "pkg/pool/src"]);
+    expect(outDirs).toEqual(["pkg/vault/out", "pkg/pool/out"]);
+  });
+
+  it("throws on empty srcDir array", () => {
+    expect(() => normalizeDirs([], "out")).toThrow(/must not be an empty array/);
+  });
+
+  it("throws on mismatched array lengths", () => {
+    expect(() =>
+      normalizeDirs(["a", "b"], ["x", "y", "z"]),
+    ).toThrow(/same length/);
   });
 });
 
