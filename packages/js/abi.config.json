@@ -23,6 +23,14 @@
       "excludePatterns": ["I*.sol", "*_V*.sol"]
     },
     {
+      "id": "bend",
+      "repo": "berachain/morpho-blue",
+      "ref": "main",
+      "buildCommand": "yarn && yarn run build:forge",
+      "srcDir": ["src"],
+      "outDir": ["out"]
+    },
+    {
       "id": "bex",
       "repo": "berachain/balancer-v2-monorepo",
       "ref": "master",
@@ -39,7 +47,7 @@
         "pkg/pool-stable/artifacts/contracts",
         "pkg/pool-utils/artifacts/contracts"
       ],
-      "excludePatterns": ["I*.sol", "*_V*.sol"]
+      "excludePatterns": ["test/*.sol"]
     }
   ]
 }

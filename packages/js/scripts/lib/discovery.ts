@@ -11,16 +11,26 @@ import { exists } from "./utils";
 const exec = promisify(execCb);
 
 /**
- * Test whether a filename matches any of the given glob-like patterns.
+ * Test whether a file matches any of the given glob-like patterns.
  *
  * Supports `*` (any characters) and `?` (single character) wildcards.
  * All other regex-special characters in the pattern are escaped.
  *
+ * Patterns containing a `/` are tested against the full relative path
+ * (e.g. `"test/*.sol"` matches `"test/MockPool.sol"`). Patterns without
+ * a `/` are tested against the filename only (preserving backward
+ * compatibility with patterns like `"I*.sol"`).
+ *
+ * @param filename  - Basename of the file (e.g. `"MockPool.sol"`).
+ * @param patterns  - Glob patterns to test.
+ * @param relPath   - Optional relative path from the source root (e.g. `"test/MockPool.sol"`).
+ *
  * @example
  * matchesAny("IBGT.sol", ["I*.sol"]) // true
  * matchesAny("Deploy.s.sol", ["*.s.sol"]) // true
+ * matchesAny("MockPool.sol", ["test/*.sol"], "test/MockPool.sol") // true
  */
-export function matchesAny(filename: string, patterns: string[]): boolean {
+export function matchesAny(filename: string, patterns: string[], relPath?: string): boolean {
   for (const pattern of patterns) {
     const regex = new RegExp(
       `^${pattern
@@ -28,7 +38,9 @@ export function matchesAny(filename: string, patterns: string[]): boolean {
         .replace(/\*/g, ".*")
         .replace(/\?/g, ".")}$`,
     );
-    if (regex.test(filename)) return true;
+    // If the pattern contains a "/" it's a path pattern → match against relPath.
+    const target = pattern.includes("/") ? (relPath ?? filename) : filename;
+    if (regex.test(target)) return true;
   }
   return false;
 }
@@ -90,8 +102,7 @@ export function normalizeDirs(
   }
 
   // Expand a single outDir to match every srcDir entry.
-  const expandedOutDirs =
-    outDirs.length === 1 ? srcDirs.map(() => outDirs[0]) : outDirs;
+  const expandedOutDirs = outDirs.length === 1 ? srcDirs.map(() => outDirs[0]) : outDirs;
 
   return { srcDirs, outDirs: expandedOutDirs };
 }
@@ -157,16 +168,21 @@ export async function discoverArtifacts(
     for (const relSolPath of solFiles) {
       const filename = path.basename(relSolPath);
 
-      if (matchesAny(filename, excludePatterns)) {
+      if (matchesAny(filename, excludePatterns, relSolPath)) {
         continue;
       }
 
       const contractName = filename.replace(/\.sol$/, "");
       const relDir = path.dirname(relSolPath);
-      const artifactPath = path.join(outDir, `${filename}/${contractName}.json`);
+      // Foundry flattens:  out/File.sol/Contract.json
+      // Hardhat preserves:  artifacts/sub/File.sol/Contract.json
+      // Try the flat path first (most common), fall back to the nested path.
+      const flatPath = path.join(outDir, `${filename}/${contractName}.json`);
+      const nestedPath = path.join(outDir, `${relSolPath}/${contractName}.json`);
+      const artifactPath = (await exists(flatPath)) ? flatPath : nestedPath;
 
       if (!(await exists(artifactPath))) {
-        warnings.push(`No artifact found for ${relSolPath}`);
+        warnings.push(`No artifact found for ${relSolPath} -> ${artifactPath}`);
         continue;
       }
 

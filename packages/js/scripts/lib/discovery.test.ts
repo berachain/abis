@@ -33,6 +33,23 @@ describe("matchesAny", () => {
     expect(matchesAny("Deploy.s.sol", ["I*.sol", "*.s.sol"])).toBe(true);
     expect(matchesAny("Token.sol", ["I*.sol", "*.s.sol"])).toBe(false);
   });
+
+  it("matches path patterns against relPath", () => {
+    expect(matchesAny("MockPool.sol", ["test/*.sol"], "test/MockPool.sol")).toBe(true);
+    expect(matchesAny("MockPool.sol", ["test/*.sol"], "core/MockPool.sol")).toBe(false);
+    expect(matchesAny("Pool.sol", ["test/*.sol"], "Pool.sol")).toBe(false);
+  });
+
+  it("falls back to filename when relPath is omitted for path patterns", () => {
+    // Without relPath, a path pattern won't match a bare filename
+    expect(matchesAny("MockPool.sol", ["test/*.sol"])).toBe(false);
+  });
+
+  it("does not use relPath for filename-only patterns", () => {
+    // Patterns without "/" still match against the filename
+    expect(matchesAny("IBGT.sol", ["I*.sol"], "deeply/nested/IBGT.sol")).toBe(true);
+    expect(matchesAny("Token.sol", ["I*.sol"], "test/Token.sol")).toBe(false);
+  });
 });
 
 describe("normalizeDirs", () => {
@@ -49,10 +66,7 @@ describe("normalizeDirs", () => {
   });
 
   it("expands single outDir across all srcDirs", () => {
-    const { srcDirs, outDirs } = normalizeDirs(
-      ["pkg/vault/src", "pkg/pool/src"],
-      "out",
-    );
+    const { srcDirs, outDirs } = normalizeDirs(["pkg/vault/src", "pkg/pool/src"], "out");
     expect(srcDirs).toEqual(["pkg/vault/src", "pkg/pool/src"]);
     expect(outDirs).toEqual(["out", "out"]);
   });
@@ -71,9 +85,7 @@ describe("normalizeDirs", () => {
   });
 
   it("throws on mismatched array lengths", () => {
-    expect(() =>
-      normalizeDirs(["a", "b"], ["x", "y", "z"]),
-    ).toThrow(/same length/);
+    expect(() => normalizeDirs(["a", "b"], ["x", "y", "z"])).toThrow(/same length/);
   });
 });
 
