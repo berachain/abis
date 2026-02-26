@@ -1,7 +1,31 @@
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 
-import { ensureRepo, injectAuthToken, resolveRepoUrl } from "./git";
+import { ensureRepo, injectAuthToken, looksLikeCommitHash, resolveRepoUrl } from "./git";
+
+describe("looksLikeCommitHash", () => {
+  it("matches a full 40-char SHA", () => {
+    expect(looksLikeCommitHash("a902a159b9994b645df5ae76bd417bf71ac8fc54")).toBe(true);
+  });
+
+  it("matches an abbreviated 7-char SHA", () => {
+    expect(looksLikeCommitHash("a902a15")).toBe(true);
+  });
+
+  it("rejects branch names", () => {
+    expect(looksLikeCommitHash("main")).toBe(false);
+    expect(looksLikeCommitHash("feature/abc")).toBe(false);
+    expect(looksLikeCommitHash("v1.0.0")).toBe(false);
+  });
+
+  it("rejects strings with non-hex characters", () => {
+    expect(looksLikeCommitHash("ghijklmnop")).toBe(false);
+  });
+
+  it("rejects strings shorter than 7 chars", () => {
+    expect(looksLikeCommitHash("abc123")).toBe(false);
+  });
+});
 
 describe("resolveRepoUrl", () => {
   const savedCI = process.env.CI;

@@ -9,6 +9,13 @@ import { exists } from "./utils";
 const exec = promisify(execCb);
 
 /**
+ * Check whether a ref string looks like a commit SHA (7-40 hex characters).
+ */
+export function looksLikeCommitHash(ref: string): boolean {
+  return /^[0-9a-f]{7,40}$/i.test(ref);
+}
+
+/**
  * Expand a repo identifier into a full git-clone-ready URL.
  *
  * Accepts three formats:
@@ -89,16 +96,23 @@ export async function ensureRepo(source: AbiSource, reposDir: string): Promise<s
       await fs.rm(cloneDir, { recursive: true, force: true });
     } else {
       console.log(`[abi:generate] Updating ${source.id} (${source.repo})...`);
-      await exec("git fetch origin", { cwd: cloneDir });
 
-      if (ref) {
-        try {
-          await exec(`git checkout --detach origin/${ref}`, { cwd: cloneDir });
-        } catch {
-          await exec(`git checkout --detach ${ref}`, { cwd: cloneDir });
-        }
+      if (ref && looksLikeCommitHash(ref)) {
+        // For commit hashes, fetch the specific commit directly.
+        await exec(`git fetch origin ${ref}`, { cwd: cloneDir });
+        await exec(`git checkout --detach ${ref}`, { cwd: cloneDir });
       } else {
-        await exec("git checkout --detach origin/HEAD", { cwd: cloneDir });
+        await exec("git fetch origin", { cwd: cloneDir });
+
+        if (ref) {
+          try {
+            await exec(`git checkout --detach origin/${ref}`, { cwd: cloneDir });
+          } catch {
+            await exec(`git checkout --detach ${ref}`, { cwd: cloneDir });
+          }
+        } else {
+          await exec("git checkout --detach origin/HEAD", { cwd: cloneDir });
+        }
       }
 
       await exec("git submodule update --init --recursive", { cwd: cloneDir });
@@ -109,20 +123,31 @@ export async function ensureRepo(source: AbiSource, reposDir: string): Promise<s
   console.log(`[abi:generate] Cloning ${source.id} (${source.repo}${ref ? ` @ ${ref}` : ""})...`);
   await fs.mkdir(reposDir, { recursive: true });
 
-  const cloneArgs = ["git", "clone", "--depth", "1", "--recurse-submodules", "--shallow-submodules"];
-  if (ref) {
-    cloneArgs.push("--branch", ref);
-  }
-  cloneArgs.push(authedUrl, cloneDir);
-
   try {
-    await exec(cloneArgs.join(" "));
+    if (ref && looksLikeCommitHash(ref)) {
+      // git clone --branch doesn't accept commit hashes.
+      // Instead: init → fetch the specific commit → checkout.
+      await fs.mkdir(cloneDir, { recursive: true });
+      await exec("git init", { cwd: cloneDir });
+      await exec(`git remote add origin ${authedUrl}`, { cwd: cloneDir });
+      await exec(`git fetch --depth 1 origin ${ref}`, { cwd: cloneDir });
+      await exec("git checkout FETCH_HEAD", { cwd: cloneDir });
+    } else {
+      const cloneArgs = ["git", "clone", "--depth", "1", "--recurse-submodules", "--shallow-submodules"];
+      if (ref) {
+        cloneArgs.push("--branch", ref);
+      }
+      cloneArgs.push(authedUrl, cloneDir);
+      await exec(cloneArgs.join(" "));
+    }
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     throw new Error(
       `Failed to clone ${source.repo}: ${message}. If this is a private repo, set GITHUB_TOKEN or GH_TOKEN env var.`,
     );
   }
+
+  await exec("git submodule update --init --recursive", { cwd: cloneDir });
 
   return cloneDir;
 }
