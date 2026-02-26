@@ -1,10 +1,9 @@
+import { formatAbiItem } from "abitype";
 import { describe, expect, it } from "vitest";
 
 import {
   buildManifest,
   diffManifests,
-  formatAbiItemSignature,
-  formatParamType,
   isEmptyDiff,
   parseAbiFromModuleContent,
   parseNpmVersionOutput,
@@ -13,136 +12,94 @@ import {
 import type { GeneratedModule } from "./types";
 
 // ---------------------------------------------------------------------------
-// formatParamType
+// formatAbiItem (contract tests — validates our assumptions about abitype)
 // ---------------------------------------------------------------------------
 
-describe("formatParamType", () => {
-  it("formats simple types", () => {
-    expect(formatParamType({ type: "address" }, false)).toBe("address");
-    expect(formatParamType({ type: "uint256" }, false)).toBe("uint256");
-    expect(formatParamType({ type: "bool" }, false)).toBe("bool");
-  });
-
-  it("formats tuple types by expanding components", () => {
+describe("formatAbiItem", () => {
+  it("formats a view function with named params and returns", () => {
     expect(
-      formatParamType({ type: "tuple", components: [{ type: "uint256" }, { type: "address" }] }, false),
-    ).toBe("(uint256,address)");
-  });
-
-  it("formats nested tuple types", () => {
-    expect(
-      formatParamType(
-        {
-          type: "tuple",
-          components: [
-            { type: "uint256" },
-            { type: "tuple", components: [{ type: "bool" }, { type: "address" }] },
-          ],
-        },
-        false,
-      ),
-    ).toBe("(uint256,(bool,address))");
-  });
-
-  it("formats tuple array types", () => {
-    expect(
-      formatParamType({ type: "tuple[]", components: [{ type: "uint256" }, { type: "address" }] }, false),
-    ).toBe("(uint256,address)[]");
-  });
-
-  it("appends indexed for events when requested", () => {
-    expect(formatParamType({ type: "address", indexed: true }, true)).toBe("address indexed");
-  });
-
-  it("omits indexed when not requested", () => {
-    expect(formatParamType({ type: "address", indexed: true }, false)).toBe("address");
-  });
-
-  it("handles tuple with no components", () => {
-    expect(formatParamType({ type: "tuple" }, false)).toBe("()");
-  });
-});
-
-// ---------------------------------------------------------------------------
-// formatAbiItemSignature
-// ---------------------------------------------------------------------------
-
-describe("formatAbiItemSignature", () => {
-  it("formats a view function with returns", () => {
-    expect(
-      formatAbiItemSignature({
+      formatAbiItem({
         type: "function",
         name: "balanceOf",
-        inputs: [{ type: "address" }],
-        outputs: [{ type: "uint256" }],
+        inputs: [{ name: "owner", type: "address" }],
+        outputs: [{ name: "", type: "uint256" }],
         stateMutability: "view",
       }),
-    ).toBe("function balanceOf(address) view returns (uint256)");
+    ).toBe("function balanceOf(address owner) view returns (uint256)");
   });
 
-  it("formats a nonpayable function with no returns", () => {
+  it("omits nonpayable mutability (it is the default)", () => {
     expect(
-      formatAbiItemSignature({
+      formatAbiItem({
         type: "function",
         name: "approve",
-        inputs: [{ type: "address" }, { type: "uint256" }],
-        outputs: [{ type: "bool" }],
+        inputs: [
+          { name: "spender", type: "address" },
+          { name: "value", type: "uint256" },
+        ],
+        outputs: [{ name: "", type: "bool" }],
         stateMutability: "nonpayable",
       }),
-    ).toBe("function approve(address,uint256) nonpayable returns (bool)");
+    ).toBe("function approve(address spender, uint256 value) returns (bool)");
   });
 
   it("formats a function with no outputs", () => {
     expect(
-      formatAbiItemSignature({
+      formatAbiItem({
         type: "function",
         name: "transfer",
-        inputs: [{ type: "address" }, { type: "uint256" }],
+        inputs: [
+          { name: "to", type: "address" },
+          { name: "amount", type: "uint256" },
+        ],
         outputs: [],
         stateMutability: "nonpayable",
       }),
-    ).toBe("function transfer(address,uint256) nonpayable");
+    ).toBe("function transfer(address to, uint256 amount)");
   });
 
-  it("formats a function with no inputs or outputs", () => {
+  it("formats a function with no inputs", () => {
     expect(
-      formatAbiItemSignature({
+      formatAbiItem({
         type: "function",
-        name: "CLOCK_MODE",
+        name: "totalSupply",
         inputs: [],
-        outputs: [{ type: "string" }],
+        outputs: [{ name: "", type: "uint256" }],
         stateMutability: "view",
       }),
-    ).toBe("function CLOCK_MODE() view returns (string)");
+    ).toBe("function totalSupply() view returns (uint256)");
   });
 
   it("formats an event with indexed params", () => {
     expect(
-      formatAbiItemSignature({
+      formatAbiItem({
         type: "event",
         name: "Transfer",
         inputs: [
-          { type: "address", indexed: true },
-          { type: "address", indexed: true },
-          { type: "uint256", indexed: false },
+          { name: "from", type: "address", indexed: true },
+          { name: "to", type: "address", indexed: true },
+          { name: "value", type: "uint256", indexed: false },
         ],
       }),
-    ).toBe("event Transfer(address indexed,address indexed,uint256)");
+    ).toBe("event Transfer(address indexed from, address indexed to, uint256 value)");
   });
 
   it("formats an error with params", () => {
     expect(
-      formatAbiItemSignature({
+      formatAbiItem({
         type: "error",
         name: "InsufficientBalance",
-        inputs: [{ type: "address" }, { type: "uint256" }],
+        inputs: [
+          { name: "account", type: "address" },
+          { name: "balance", type: "uint256" },
+        ],
       }),
-    ).toBe("error InsufficientBalance(address,uint256)");
+    ).toBe("error InsufficientBalance(address account, uint256 balance)");
   });
 
   it("formats an error with no params", () => {
     expect(
-      formatAbiItemSignature({
+      formatAbiItem({
         type: "error",
         name: "ZeroAddress",
         inputs: [],
@@ -150,38 +107,46 @@ describe("formatAbiItemSignature", () => {
     ).toBe("error ZeroAddress()");
   });
 
-  it("formats a constructor", () => {
+  it("formats a constructor (nonpayable omitted)", () => {
     expect(
-      formatAbiItemSignature({
+      formatAbiItem({
         type: "constructor",
-        inputs: [{ type: "address" }, { type: "uint256" }],
+        inputs: [
+          { name: "owner", type: "address" },
+          { name: "amount", type: "uint256" },
+        ],
         stateMutability: "nonpayable",
       }),
-    ).toBe("constructor(address,uint256) nonpayable");
+    ).toBe("constructor(address owner, uint256 amount)");
   });
 
   it("formats fallback", () => {
-    expect(formatAbiItemSignature({ type: "fallback" })).toBe("fallback()");
+    expect(formatAbiItem({ type: "fallback", stateMutability: "nonpayable" })).toBe("fallback() external");
   });
 
   it("formats receive", () => {
-    expect(formatAbiItemSignature({ type: "receive" })).toBe("receive()");
+    expect(formatAbiItem({ type: "receive", stateMutability: "payable" })).toBe("receive() external payable");
   });
 
-  it("returns null for unknown types", () => {
-    expect(formatAbiItemSignature({ type: "unknown_thing" })).toBeNull();
-  });
-
-  it("formats tuple input params", () => {
+  it("formats tuple output params with component names", () => {
     expect(
-      formatAbiItemSignature({
+      formatAbiItem({
         type: "function",
         name: "getPrice",
-        inputs: [{ type: "address" }],
-        outputs: [{ type: "tuple", components: [{ type: "uint256" }, { type: "uint256" }] }],
+        inputs: [{ name: "token", type: "address" }],
+        outputs: [
+          {
+            name: "",
+            type: "tuple",
+            components: [
+              { name: "price", type: "uint256" },
+              { name: "timestamp", type: "uint256" },
+            ],
+          },
+        ],
         stateMutability: "view",
       }),
-    ).toBe("function getPrice(address) view returns ((uint256,uint256))");
+    ).toBe("function getPrice(address token) view returns ((uint256 price, uint256 timestamp))");
   });
 });
 
@@ -239,7 +204,11 @@ describe("buildManifest", () => {
         { type: "function", name: "alpha", inputs: [], outputs: [], stateMutability: "view" },
       ]),
       makeModule("a/first.ts", [
-        { type: "event", name: "Transfer", inputs: [{ type: "address", indexed: true }] },
+        {
+          type: "event",
+          name: "Transfer",
+          inputs: [{ name: "from", type: "address", indexed: true }],
+        },
       ]),
     ];
 
@@ -247,34 +216,23 @@ describe("buildManifest", () => {
 
     expect(Object.keys(manifest)).toEqual(["a/first", "z/second"]);
     expect(manifest["z/second"]).toEqual(["function alpha() view", "function beta() view"]);
-    expect(manifest["a/first"]).toEqual(["event Transfer(address indexed)"]);
+    expect(manifest["a/first"]).toEqual(["event Transfer(address indexed from)"]);
   });
 
   it("strips .ts extension from keys", () => {
-    const modules = [makeModule("pol/bgt.ts", [{ type: "receive" }])];
+    const modules = [makeModule("pol/bgt.ts", [{ type: "receive", stateMutability: "payable" }])];
     const manifest = buildManifest(modules);
     expect(manifest).toHaveProperty("pol/bgt");
   });
 
   it("produces deterministic output regardless of module order", () => {
-    const mod1 = makeModule("b.ts", [{ type: "receive" }]);
-    const mod2 = makeModule("a.ts", [{ type: "fallback" }]);
+    const mod1 = makeModule("b.ts", [{ type: "receive", stateMutability: "payable" }]);
+    const mod2 = makeModule("a.ts", [{ type: "fallback", stateMutability: "nonpayable" }]);
 
     const manifest1 = buildManifest([mod1, mod2]);
     const manifest2 = buildManifest([mod2, mod1]);
 
     expect(JSON.stringify(manifest1)).toBe(JSON.stringify(manifest2));
-  });
-
-  it("skips items that produce null signatures", () => {
-    const modules = [
-      makeModule("test.ts", [
-        { type: "function", name: "foo", inputs: [], outputs: [], stateMutability: "view" },
-        { type: "some_unknown_type" },
-      ]),
-    ];
-    const manifest = buildManifest(modules);
-    expect(manifest.test).toEqual(["function foo() view"]);
   });
 });
 

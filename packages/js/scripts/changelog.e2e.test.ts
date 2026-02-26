@@ -33,70 +33,70 @@ function fakeVersionLookup(
 
 const MANIFEST_V1: AbiManifest = {
   "contracts/pol/bgt": [
-    "event Approval(address indexed,address indexed,uint256)",
-    "event Transfer(address indexed,address indexed,uint256)",
-    "function allowance(address,address) view returns (uint256)",
-    "function approve(address,uint256) nonpayable returns (bool)",
-    "function balanceOf(address) view returns (uint256)",
+    "event Approval(address indexed owner, address indexed spender, uint256 value)",
+    "event Transfer(address indexed from, address indexed to, uint256 value)",
+    "function allowance(address owner, address spender) view returns (uint256)",
+    "function approve(address spender, uint256 value) returns (bool)",
+    "function balanceOf(address account) view returns (uint256)",
     "function totalSupply() view returns (uint256)",
   ],
   "contracts/pol/rewards": [
-    "event RewardClaimed(address indexed,uint256)",
-    "function claimReward(uint256) nonpayable",
-    "function pendingReward(address) view returns (uint256)",
+    "event RewardClaimed(address indexed user, uint256 amount)",
+    "function claimReward(uint256 amount)",
+    "function pendingReward(address user) view returns (uint256)",
   ],
 };
 
 const MANIFEST_V2_BETA: AbiManifest = {
   // bgt: added a new function, kept existing
   "contracts/pol/bgt": [
-    "event Approval(address indexed,address indexed,uint256)",
-    "event Transfer(address indexed,address indexed,uint256)",
-    "function allowance(address,address) view returns (uint256)",
-    "function approve(address,uint256) nonpayable returns (bool)",
-    "function balanceOf(address) view returns (uint256)",
-    "function delegate(address) nonpayable",
+    "event Approval(address indexed owner, address indexed spender, uint256 value)",
+    "event Transfer(address indexed from, address indexed to, uint256 value)",
+    "function allowance(address owner, address spender) view returns (uint256)",
+    "function approve(address spender, uint256 value) returns (bool)",
+    "function balanceOf(address account) view returns (uint256)",
+    "function delegate(address delegatee)",
     "function totalSupply() view returns (uint256)",
   ],
   // rewards: same as v1
   "contracts/pol/rewards": [
-    "event RewardClaimed(address indexed,uint256)",
-    "function claimReward(uint256) nonpayable",
-    "function pendingReward(address) view returns (uint256)",
+    "event RewardClaimed(address indexed user, uint256 amount)",
+    "function claimReward(uint256 amount)",
+    "function pendingReward(address user) view returns (uint256)",
   ],
   // new export
-  "bex/vault": ["function getPool(bytes32) view returns (address,uint8)"],
+  "bex/vault": ["function getPool(bytes32 poolId) view returns (address pool, uint8 kind)"],
 };
 
 const MANIFEST_V2_BETA2: AbiManifest = {
   // bgt: same as beta1
   "contracts/pol/bgt": [...MANIFEST_V2_BETA["contracts/pol/bgt"]],
-  // rewards: removed an event, added one
+  // rewards: added an event
   "contracts/pol/rewards": [
-    "event RewardClaimed(address indexed,uint256)",
-    "event RewardUpdated(address indexed,uint256)",
-    "function claimReward(uint256) nonpayable",
-    "function pendingReward(address) view returns (uint256)",
+    "event RewardClaimed(address indexed user, uint256 amount)",
+    "event RewardUpdated(address indexed user, uint256 newAmount)",
+    "function claimReward(uint256 amount)",
+    "function pendingReward(address user) view returns (uint256)",
   ],
   // vault: added another function
   "bex/vault": [
-    "function getPool(bytes32) view returns (address,uint8)",
-    "function swap(bytes32,address,address,uint256) nonpayable returns (uint256)",
+    "function getPool(bytes32 poolId) view returns (address pool, uint8 kind)",
+    "function swap(bytes32 poolId, address tokenIn, address tokenOut, uint256 amountIn) returns (uint256)",
   ],
 };
 
 const MANIFEST_V2_STABLE: AbiManifest = {
   ...MANIFEST_V2_BETA2,
   // small addition for stable
-  "staking/pools": ["function stake(uint256) nonpayable", "function unstake(uint256) nonpayable"],
+  "staking/pools": ["function stake(uint256 amount)", "function unstake(uint256 amount)"],
 };
 
 const MANIFEST_V3_STABLE: AbiManifest = {
   ...MANIFEST_V2_STABLE,
   // removed rewards entirely, added new module
   "contracts/gov/governor": [
-    "function propose(address[],uint256[],bytes[],string) nonpayable returns (uint256)",
-    "function castVote(uint256,uint8) nonpayable",
+    "function castVote(uint256 proposalId, uint8 support)",
+    "function propose(address[] targets, uint256[] values, bytes[] calldatas, string description) returns (uint256)",
   ],
 };
 // Delete rewards from v3
@@ -206,7 +206,7 @@ describe("changelog release flows", () => {
 
       const bgtDiff = diff.changed.get("contracts/pol/bgt");
       expect(bgtDiff).toBeDefined();
-      expect(bgtDiff?.added).toEqual(["function delegate(address) nonpayable"]);
+      expect(bgtDiff?.added).toEqual(["function delegate(address delegatee)"]);
       expect(bgtDiff?.removed).toEqual([]);
     });
 
@@ -217,7 +217,7 @@ describe("changelog release flows", () => {
       expect(md).toContain("- `bex/vault`");
       expect(md).toContain("### Changed");
       expect(md).toContain("`contracts/pol/bgt`");
-      expect(md).toContain("function delegate(address) nonpayable");
+      expect(md).toContain("function delegate(address delegatee)");
       expect(md).not.toContain("### Removed");
     });
   });
@@ -231,13 +231,13 @@ describe("changelog release flows", () => {
 
       const rewardsDiff = diff.changed.get("contracts/pol/rewards");
       expect(rewardsDiff).toBeDefined();
-      expect(rewardsDiff?.added).toEqual(["event RewardUpdated(address indexed,uint256)"]);
+      expect(rewardsDiff?.added).toEqual(["event RewardUpdated(address indexed user, uint256 newAmount)"]);
       expect(rewardsDiff?.removed).toEqual([]);
 
       const vaultDiff = diff.changed.get("bex/vault");
       expect(vaultDiff).toBeDefined();
       expect(vaultDiff?.added).toEqual([
-        "function swap(bytes32,address,address,uint256) nonpayable returns (uint256)",
+        "function swap(bytes32 poolId, address tokenIn, address tokenOut, uint256 amountIn) returns (uint256)",
       ]);
       expect(vaultDiff?.removed).toEqual([]);
     });
@@ -266,7 +266,7 @@ describe("changelog release flows", () => {
       const newPrerelease: AbiManifest = {
         ...MANIFEST_V2_STABLE,
         "contracts/gov/governor": [
-          "function propose(address[],uint256[],bytes[],string) nonpayable returns (uint256)",
+          "function propose(address[] targets, uint256[] values, bytes[] calldatas, string description) returns (uint256)",
         ],
       };
 

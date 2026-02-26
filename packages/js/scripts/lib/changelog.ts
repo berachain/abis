@@ -3,7 +3,9 @@ import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
+import type { Abi } from "abitype";
 
+import { formatAbiItem } from "abitype";
 import { gte as semverGte } from "semver";
 
 import type { GeneratedModule } from "./types";
@@ -17,15 +19,6 @@ const exec = promisify(execCb);
 /** Map from export path (e.g. `"pol/bgt"`) to sorted array of human-readable ABI signatures. */
 export type AbiManifest = Record<string, string[]>;
 
-/** A single ABI item from a parsed JSON artifact. */
-type AbiItem = {
-  type: string;
-  name?: string;
-  inputs?: Array<{ type: string; indexed?: boolean; components?: AbiItem["inputs"] }>;
-  outputs?: Array<{ type: string; components?: AbiItem["inputs"] }>;
-  stateMutability?: string;
-};
-
 /** Result of diffing two manifests. */
 export type ManifestDiff = {
   /** Export paths that are new. */
@@ -37,89 +30,6 @@ export type ManifestDiff = {
 };
 
 // ---------------------------------------------------------------------------
-// Signature formatting
-// ---------------------------------------------------------------------------
-
-/**
- * Format a single ABI parameter type, recursively expanding tuples.
- *
- * For tuple types, expands `components` into `(type1,type2)`.
- * Appends `[]` / `[N]` suffixes for array types.
- * When {@link includeIndexed} is `true`, appends ` indexed` for indexed event params.
- */
-export function formatParamType(
-  param: {
-    type: string;
-    indexed?: boolean;
-    components?: Array<{ type: string; indexed?: boolean; components?: unknown[] }>;
-  },
-  includeIndexed: boolean,
-): string {
-  let result: string;
-
-  if (param.type === "tuple" || param.type.startsWith("tuple[")) {
-    const suffix = param.type.slice("tuple".length); // e.g. "" or "[]" or "[3]"
-    const inner = (param.components ?? [])
-      .map((c) => formatParamType(c as Parameters<typeof formatParamType>[0], false))
-      .join(",");
-    result = `(${inner})${suffix}`;
-  } else {
-    result = param.type;
-  }
-
-  if (includeIndexed && param.indexed) {
-    result += " indexed";
-  }
-
-  return result;
-}
-
-/**
- * Convert a single ABI item into a deterministic human-readable signature.
- *
- * @returns A string like `function approve(address,uint256) nonpayable returns (bool)`,
- *          or `null` for unrecognized / unsupported item types.
- */
-export function formatAbiItemSignature(item: AbiItem): string | null {
-  const inputs = item.inputs ?? [];
-
-  switch (item.type) {
-    case "function": {
-      const params = inputs.map((p) => formatParamType(p, false)).join(",");
-      const outputs = (item.outputs ?? []).map((p) => formatParamType(p, false)).join(",");
-      const mut = item.stateMutability ?? "";
-      const ret = outputs.length > 0 ? ` returns (${outputs})` : "";
-      return `function ${item.name}(${params})${mut ? ` ${mut}` : ""}${ret}`;
-    }
-
-    case "event": {
-      const params = inputs.map((p) => formatParamType(p, true)).join(",");
-      return `event ${item.name}(${params})`;
-    }
-
-    case "error": {
-      const params = inputs.map((p) => formatParamType(p, false)).join(",");
-      return `error ${item.name}(${params})`;
-    }
-
-    case "constructor": {
-      const params = inputs.map((p) => formatParamType(p, false)).join(",");
-      const mut = item.stateMutability ?? "";
-      return `constructor(${params})${mut ? ` ${mut}` : ""}`;
-    }
-
-    case "fallback":
-      return "fallback()";
-
-    case "receive":
-      return "receive()";
-
-    default:
-      return null;
-  }
-}
-
-// ---------------------------------------------------------------------------
 // Manifest building
 // ---------------------------------------------------------------------------
 
@@ -129,12 +39,12 @@ export function formatAbiItemSignature(item: AbiItem): string | null {
  * Extracts the JSON between `[` and `] as const;` which was produced by
  * `JSON.stringify(artifact.abi, null, 2)` in `artifactToModule`.
  */
-export function parseAbiFromModuleContent(content: string): AbiItem[] | null {
+export function parseAbiFromModuleContent(content: string): Abi | null {
   const start = content.indexOf("[");
   const end = content.lastIndexOf("] as const;");
   if (start === -1 || end === -1) return null;
   try {
-    return JSON.parse(content.slice(start, end + 1)) as AbiItem[];
+    return JSON.parse(content.slice(start, end + 1)) as Abi;
   } catch {
     return null;
   }
@@ -155,10 +65,7 @@ export function buildManifest(modules: GeneratedModule[]): AbiManifest {
     const abi = parseAbiFromModuleContent(mod.moduleContent);
     if (!abi) continue;
 
-    const signatures = abi
-      .map((item) => formatAbiItemSignature(item))
-      .filter((s): s is string => s !== null)
-      .sort();
+    const signatures = abi.map((item) => formatAbiItem(item)).sort();
 
     entries.push([key, signatures]);
   }
