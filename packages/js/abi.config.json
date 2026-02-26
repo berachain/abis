@@ -23,8 +23,25 @@
       "excludePatterns": ["I*.sol", "*_V*.sol"]
     },
     {
+      "id": "meta-aggregator",
+      "repo": "berachain/contracts-meta-aggregator",
+      "ref": "main",
+      "buildCommand": "forge install && forge build",
+      "srcDir": "src",
+      "outDir": "out",
+      "excludePatterns": ["I*.sol", "*_V*.sol"]
+    },
+    {
       "id": "bend",
       "repo": "berachain/morpho-blue",
+      "ref": "main",
+      "buildCommand": "yarn && yarn run build:forge",
+      "srcDir": ["src"],
+      "outDir": ["out"]
+    },
+    {
+      "id": "bend-metamorpho",
+      "repo": "berachain/contracts-metamorpho-v1.1",
       "ref": "main",
       "buildCommand": "yarn && yarn run build:forge",
       "srcDir": ["src"],
@@ -38,12 +55,14 @@
       "srcDir": [
         "pkg/vault/contracts",
         "pkg/pool-weighted/contracts",
+        "pkg/standalone-utils/contracts",
         "pkg/pool-stable/contracts",
         "pkg/pool-utils/contracts"
       ],
       "outDir": [
         "pkg/vault/artifacts/contracts",
         "pkg/pool-weighted/artifacts/contracts",
+        "pkg/standalone-utils/artifacts/contracts",
         "pkg/pool-stable/artifacts/contracts",
         "pkg/pool-utils/artifacts/contracts"
       ],

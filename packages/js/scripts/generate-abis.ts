@@ -12,7 +12,13 @@ import type { DiscoveredArtifact, GenerateOptions } from "./lib/types";
 import { stableStringify } from "./lib/utils";
 import { writeGeneratedFiles } from "./lib/writer";
 
-export { buildManifest, diffManifests, fetchManifestFromNpm, renderChangelog } from "./lib/changelog";
+export {
+  buildManifest,
+  diffManifests,
+  fetchManifestFromNpm,
+  renderChangelog,
+  resolveBaseVersion,
+} from "./lib/changelog";
 // Re-export everything for tests and external consumers.
 export { loadConfig } from "./lib/config";
 export { discoverArtifacts, extractArtifact } from "./lib/discovery";

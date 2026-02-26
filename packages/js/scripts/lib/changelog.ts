@@ -4,6 +4,8 @@ import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 
+import { gte as semverGte } from "semver";
+
 import type { GeneratedModule } from "./types";
 
 const exec = promisify(execCb);
@@ -259,8 +261,39 @@ export function renderChangelog(diff: ManifestDiff): string {
 // ---------------------------------------------------------------------------
 
 /**
+ * Parse the JSON output of `npm view <pkg>@<tag> version --json`.
+ *
+ * Returns the version string when the output is a single version,
+ * or `null` for arrays (range matches) or unparseable output.
+ */
+export function parseNpmVersionOutput(stdout: string): string | null {
+  try {
+    const parsed = JSON.parse(stdout.trim());
+    return typeof parsed === "string" ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Fetch the version string for a specific dist-tag (or version) from the npm registry.
+ *
+ * Runs `npm view <pkg>@<tag> version --json` and returns the version string,
+ * or `null` if the package or tag doesn't exist.
+ */
+export async function fetchVersionFromNpm(packageName: string, tag: string): Promise<string | null> {
+  try {
+    const { stdout } = await exec(`npm view ${packageName}@${tag} version --json`);
+    return parseNpmVersionOutput(stdout);
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Download the previously published package from npm and extract its `abi-manifest.json`.
  *
+ * Accepts a dist-tag (e.g. `"latest"`, `"beta"`) or an exact version (e.g. `"0.1.0"`).
  * Returns `null` if the package or tag doesn't exist on the registry (e.g. first release).
  */
 export async function fetchManifestFromNpm(packageName: string, tag = "latest"): Promise<AbiManifest | null> {
@@ -291,4 +324,49 @@ export async function fetchManifestFromNpm(packageName: string, tag = "latest"):
   } finally {
     await fs.rm(tmpDir, { recursive: true, force: true });
   }
+}
+
+// ---------------------------------------------------------------------------
+// Base version resolution
+// ---------------------------------------------------------------------------
+
+/**
+ * Resolve the best base version to diff against.
+ *
+ * When `tag` is `"latest"`, just returns the `@latest` version.
+ * Otherwise, fetches both `@<tag>` and `@latest` versions and returns
+ * whichever is newer (by semver). This handles stale dist-tags — e.g.
+ * the `beta` tag still pointing to `0.1.0-beta.2` after `0.1.0` stable
+ * was published.
+ *
+ * An optional `versionLookup` parameter allows callers to inject a custom
+ * version-fetching function (used in tests to avoid hitting npm).
+ */
+export async function resolveBaseVersion(
+  packageName: string,
+  tag: string,
+  versionLookup: (pkg: string, t: string) => Promise<string | null> = fetchVersionFromNpm,
+): Promise<string | null> {
+  if (tag === "latest") {
+    return versionLookup(packageName, "latest");
+  }
+
+  const [tagVersion, latestVersion] = await Promise.all([
+    versionLookup(packageName, tag),
+    versionLookup(packageName, "latest"),
+  ]);
+
+  if (tagVersion && latestVersion) {
+    // Pick whichever is newer.
+    const winner = semverGte(latestVersion, tagVersion) ? latestVersion : tagVersion;
+    if (winner !== tagVersion) {
+      console.log(
+        `[changelog] @latest (${latestVersion}) is newer than @${tag} (${tagVersion}) — using @latest.`,
+      );
+    }
+    return winner;
+  }
+
+  // One or both don't exist — return whichever is available.
+  return tagVersion ?? latestVersion ?? null;
 }

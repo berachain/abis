@@ -7,6 +7,7 @@ import {
   formatParamType,
   isEmptyDiff,
   parseAbiFromModuleContent,
+  parseNpmVersionOutput,
   renderChangelog,
 } from "./changelog";
 import type { GeneratedModule } from "./types";
@@ -392,5 +393,35 @@ describe("renderChangelog", () => {
     expect(md).toContain("### Added");
     expect(md).toContain("### Removed");
     expect(md).toContain("### Changed");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// parseNpmVersionOutput
+// ---------------------------------------------------------------------------
+
+describe("parseNpmVersionOutput", () => {
+  it("parses a quoted version string", () => {
+    expect(parseNpmVersionOutput('"1.2.3"\n')).toBe("1.2.3");
+  });
+
+  it("parses a pre-release version", () => {
+    expect(parseNpmVersionOutput('"0.1.0-beta.20250101120000"\n')).toBe("0.1.0-beta.20250101120000");
+  });
+
+  it("returns null for an array (range match)", () => {
+    expect(parseNpmVersionOutput('["1.0.0","1.0.1"]\n')).toBeNull();
+  });
+
+  it("returns null for invalid JSON", () => {
+    expect(parseNpmVersionOutput("not json")).toBeNull();
+  });
+
+  it("returns null for empty string", () => {
+    expect(parseNpmVersionOutput("")).toBeNull();
+  });
+
+  it("trims whitespace", () => {
+    expect(parseNpmVersionOutput('  "3.0.0"  \n')).toBe("3.0.0");
   });
 });

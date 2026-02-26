@@ -2,7 +2,13 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 import type { AbiManifest } from "./lib/changelog";
-import { diffManifests, fetchManifestFromNpm, isEmptyDiff, renderChangelog } from "./lib/changelog";
+import {
+  diffManifests,
+  fetchManifestFromNpm,
+  isEmptyDiff,
+  renderChangelog,
+  resolveBaseVersion,
+} from "./lib/changelog";
 
 const MANIFEST_FILENAME = "abi-manifest.json";
 const PACKAGE_NAME = "@berachain/abis";
@@ -57,9 +63,17 @@ async function main(): Promise<void> {
       return;
     }
   } else {
-    console.log(`[changelog] Fetching previous manifest from npm (${PACKAGE_NAME}@${tag})...`);
-    previousManifest = await fetchManifestFromNpm(PACKAGE_NAME, tag);
-    if (!previousManifest) {
+    // Resolve which published version to diff against.
+    // When --tag is not "latest", we compare the tag's version against @latest
+    // and pick whichever is newer. This handles stale dist-tags (e.g. the
+    // "beta" tag still pointing to an old pre-release after a stable was shipped).
+    const resolvedVersion = await resolveBaseVersion(PACKAGE_NAME, tag);
+
+    if (resolvedVersion) {
+      console.log(`[changelog] Diffing against ${PACKAGE_NAME}@${resolvedVersion}...`);
+      previousManifest = await fetchManifestFromNpm(PACKAGE_NAME, resolvedVersion);
+    } else {
+      previousManifest = null;
       console.log("[changelog] No previous version found on npm — treating as first release.");
     }
   }
