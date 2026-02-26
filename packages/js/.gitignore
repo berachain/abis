@@ -5,3 +5,4 @@ coverage
 src/generated
 .repos
 LICENSE
+abi-manifest.json

@@ -89,6 +89,20 @@ jobs:
       - run: pnpm test
       - run: pnpm build
 
+      - name: Generate changelog
+        id: changelog
+        run: |
+          DIST_TAG="latest"
+          if [ "${{ inputs.contracts_ref }}" != "main" ] || [ "${{ inputs.staking_pools_ref }}" != "main" ]; then
+            DIST_TAG="beta"
+          fi
+          pnpm changelog --tag "$DIST_TAG" --out=CHANGELOG_BODY.md || true
+          if [ -f CHANGELOG_BODY.md ]; then
+            echo "has_changelog=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changelog=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Resolve release type
         id: release
         run: |
@@ -146,9 +160,13 @@ jobs:
           if [ "${{ steps.release.outputs.type }}" = "beta" ]; then
             PRERELEASE_FLAG="--prerelease"
           fi
+          NOTES_FLAG="--generate-notes"
+          if [ "${{ steps.changelog.outputs.has_changelog }}" = "true" ]; then
+            NOTES_FLAG="--notes-file CHANGELOG_BODY.md"
+          fi
           gh release create "v${VERSION}" \
             --title "v${VERSION}" \
-            --generate-notes \
+            $NOTES_FLAG \
             $PRERELEASE_FLAG
         env:
           GH_TOKEN: ${{ github.token }}

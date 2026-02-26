@@ -6,7 +6,8 @@
   "type": "module",
   "files": [
     "dist",
-    "src"
+    "src",
+    "abi-manifest.json"
   ],
   "exports": {
     "./*": {
@@ -22,6 +23,7 @@
     "prepack": "pnpm abi:generate",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "changelog": "tsx scripts/changelog.ts",
     "abi:clean": "rm -rf .repos",
     "lint": "biome check .",
     "lint:fix": "biome check --write ."

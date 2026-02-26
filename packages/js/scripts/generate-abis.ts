@@ -1,5 +1,7 @@
+import { promises as fs } from "node:fs";
 import path from "node:path";
 
+import { buildManifest } from "./lib/changelog";
 import { loadConfig } from "./lib/config";
 import { discoverArtifacts, matchesAny } from "./lib/discovery";
 import { ensureRepo } from "./lib/git";
@@ -10,6 +12,7 @@ import type { DiscoveredArtifact, GenerateOptions } from "./lib/types";
 import { stableStringify } from "./lib/utils";
 import { writeGeneratedFiles } from "./lib/writer";
 
+export { buildManifest, diffManifests, fetchManifestFromNpm, renderChangelog } from "./lib/changelog";
 // Re-export everything for tests and external consumers.
 export { loadConfig } from "./lib/config";
 export { discoverArtifacts, extractArtifact } from "./lib/discovery";
@@ -80,6 +83,10 @@ export async function generateAbis(options: GenerateOptions = {}): Promise<{
 
   await writeGeneratedFiles(config, deduped.modules);
   await updateReadmeTree(deduped.modules);
+
+  // Write ABI manifest for changelog diffing (ships in the npm package).
+  const manifest = buildManifest(deduped.modules);
+  await fs.writeFile(path.resolve("abi-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
 
   return {
     moduleCount: deduped.modules.length,
