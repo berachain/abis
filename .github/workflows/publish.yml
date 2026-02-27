@@ -1,0 +1,172 @@
+name: Publish
+
+
+defaults:
+  run:
+    working-directory: packages/js
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: "Version bump (patch, minor, major) or exact semver (e.g. 1.2.3)"
+        required: true
+        type: string
+        default: patch
+      contracts_repo:
+        description: "Repo for contracts source (org/repo)"
+        required: false
+        type: string
+        default: berachain/contracts
+      contracts_ref:
+        description: "Branch/tag/SHA for contracts source"
+        required: false
+        type: string
+        default: main
+      staking_pools_repo:
+        description: "Repo for staking-pools source (org/repo)"
+        required: false
+        type: string
+        default: berachain/contracts-staking-pools
+      staking_pools_ref:
+        description: "Branch/tag/SHA for staking-pools source"
+        required: false
+        type: string
+        default: main
+
+jobs:
+  publish:
+    environment: production
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure branch is up to date
+        run: |
+          git fetch origin ${{ github.ref_name }}
+          LOCAL=$(git rev-parse HEAD)
+          REMOTE=$(git rev-parse origin/${{ github.ref_name }})
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            echo "::error::Branch ${{ github.ref_name }} is not up to date with remote. Pull and push latest changes first."
+            exit 1
+          fi
+ 
+
+      - name: Copy LICENSE
+        run: |
+          cp ../../LICENSE .
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: packages/js/pnpm-lock.yaml
+          registry-url: https://registry.npmjs.org
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Generate ABIs
+        run: >-
+          pnpm abi:generate
+          --repo contracts=${{ inputs.contracts_repo }}
+          --repo staking-pools=${{ inputs.staking_pools_repo }}
+          --ref contracts=${{ inputs.contracts_ref }}
+          --ref staking-pools=${{ inputs.staking_pools_ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_READ_ONLY_PAT }}
+
+      - run: pnpm test
+      - run: pnpm build
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          DIST_TAG="latest"
+          if [ "${{ inputs.contracts_ref }}" != "main" ] || [ "${{ inputs.staking_pools_ref }}" != "main" ]; then
+            DIST_TAG="beta"
+          fi
+          pnpm changelog --tag "$DIST_TAG" --out=CHANGELOG_BODY.md || true
+          if [ -f CHANGELOG_BODY.md ]; then
+            echo "has_changelog=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changelog=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Resolve release type
+        id: release
+        run: |
+          if [ "${{ inputs.contracts_ref }}" != "main" ] || [ "${{ inputs.staking_pools_ref }}" != "main" ]; then
+            echo "type=beta" >> "$GITHUB_OUTPUT"
+          else
+            echo "type=release" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Bump version (beta)
+        if: steps.release.outputs.type == 'beta'
+        run: |
+          BUMP="${{ inputs.version_bump }}"
+          if [[ "$BUMP" =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            npm version "$BUMP-beta.$(date +%Y%m%d%H%M%S)" --no-git-tag-version
+          else
+            npm version "pre$BUMP" --preid beta --no-git-tag-version
+          fi
+
+      - name: Bump version (release)
+        if: steps.release.outputs.type == 'release'
+        run: |
+          BUMP="${{ inputs.version_bump }}"
+          if [[ "$BUMP" =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            npm version "$BUMP" --no-git-tag-version
+          else
+            npm version "$BUMP" --no-git-tag-version
+          fi
+
+      - name: Ensure npm supports OIDC
+        run: npm install -g npm@latest
+
+      - name: Publish to npm
+        run: |
+          if [ "${{ steps.release.outputs.type }}" = "beta" ]; then
+            pnpm publish --access public --tag beta --no-git-checks --provenance
+          else
+            pnpm publish --access public --tag latest --no-git-checks --provenance
+          fi
+
+      - name: Tag and push
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git commit -m "chore: release v${VERSION}"
+          git tag "v${VERSION}"
+          git push origin HEAD --tags
+
+      - name: Create GitHub release
+        run: |
+          PRERELEASE_FLAG=""
+          if [ "${{ steps.release.outputs.type }}" = "beta" ]; then
+            PRERELEASE_FLAG="--prerelease"
+          fi
+          NOTES_FLAG="--generate-notes"
+          if [ "${{ steps.changelog.outputs.has_changelog }}" = "true" ]; then
+            NOTES_FLAG="--notes-file CHANGELOG_BODY.md"
+          fi
+          gh release create "v${VERSION}" \
+            --title "v${VERSION}" \
+            $NOTES_FLAG \
+            $PRERELEASE_FLAG
+        env:
+          GH_TOKEN: ${{ github.token }}

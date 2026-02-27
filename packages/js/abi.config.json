@@ -1,0 +1,72 @@
+{
+  "outputDir": "src/generated/abi",
+  "mainSource": "contracts",
+  "reposDir": ".repos",
+  "onMissingRepo": "error",
+  "sources": [
+    {
+      "id": "contracts",
+      "repo": "berachain/contracts",
+      "ref": "main",
+      "buildCommand": "npm install && forge build",
+      "srcDir": "src",
+      "outDir": "out",
+      "excludePatterns": ["I*.sol", "*_V*.sol"]
+    },
+    {
+      "id": "staking-pools",
+      "repo": "berachain/contracts-staking-pools",
+      "ref": "main",
+      "buildCommand": "forge install && forge build",
+      "srcDir": "src",
+      "outDir": "out",
+      "excludePatterns": ["I*.sol", "*_V*.sol"]
+    },
+    {
+      "id": "meta-aggregator",
+      "repo": "berachain/contracts-meta-aggregator",
+      "ref": "main",
+      "buildCommand": "forge install && forge build",
+      "srcDir": "src",
+      "outDir": "out",
+      "excludePatterns": ["I*.sol", "*_V*.sol"]
+    },
+    {
+      "id": "bend",
+      "repo": "berachain/morpho-blue",
+      "ref": "main",
+      "buildCommand": "yarn && yarn run build:forge",
+      "srcDir": ["src"],
+      "outDir": ["out"]
+    },
+    {
+      "id": "bend-metamorpho",
+      "repo": "berachain/contracts-metamorpho-v1.1",
+      "ref": "main",
+      "buildCommand": "yarn && yarn run build:forge",
+      "srcDir": ["src"],
+      "outDir": ["out"]
+    },
+    {
+      "id": "bex",
+      "repo": "berachain/balancer-v2-monorepo",
+      "ref": "master",
+      "buildCommand": "yarn && yarn workspace @balancer-labs/balancer-js build && yarn build ",
+      "srcDir": [
+        "pkg/vault/contracts",
+        "pkg/pool-weighted/contracts",
+        "pkg/standalone-utils/contracts",
+        "pkg/pool-stable/contracts",
+        "pkg/pool-utils/contracts"
+      ],
+      "outDir": [
+        "pkg/vault/artifacts/contracts",
+        "pkg/pool-weighted/artifacts/contracts",
+        "pkg/standalone-utils/artifacts/contracts",
+        "pkg/pool-stable/artifacts/contracts",
+        "pkg/pool-utils/artifacts/contracts"
+      ],
+      "excludePatterns": ["test/*.sol"]
+    }
+  ]
+}

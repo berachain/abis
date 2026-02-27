@@ -1,0 +1,46 @@
+name: CI
+
+defaults:
+  run:
+    working-directory: packages/js
+on:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: packages/js/.nvmrc
+          cache: pnpm
+          cache-dependency-path: packages/js/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: packages/js/.nvmrc
+          cache: pnpm
+          cache-dependency-path: packages/js/pnpm-lock.yaml
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
