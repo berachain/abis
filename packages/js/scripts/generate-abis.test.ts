@@ -76,8 +76,10 @@ describe("generateAbis integration", () => {
 
       expect(tokenModuleOne).toContain("export const tokenAbi");
       expect(tokenModuleOne).toContain("as const;");
+      expect(tokenModuleOne).toContain("export default tokenAbi;");
       expect(tokenModuleTwo).toContain("export const tokenAbi");
       expect(tokenModuleTwo).toContain("as const;");
+      expect(tokenModuleTwo).toContain("export default tokenAbi;");
     } finally {
       process.chdir(originalCwd);
     }

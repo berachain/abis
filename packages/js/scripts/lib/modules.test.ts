@@ -41,10 +41,11 @@ describe("artifactToModule", () => {
     expect(mod.moduleRelPath).toBe("wbera.ts");
   });
 
-  it("generates module content with 'as const'", () => {
+  it("generates module content with named and default exports", () => {
     const mod = artifactToModule(artifact({ abi: [{ type: "function", name: "name" }] }));
     expect(mod.moduleContent).toContain("export const tokenAbi =");
     expect(mod.moduleContent).toContain("as const;");
+    expect(mod.moduleContent).toContain("export default tokenAbi;");
   });
 
   it("sets dedupeKey as sourceId:contractName", () => {

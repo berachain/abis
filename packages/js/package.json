@@ -1,6 +1,6 @@
 {
   "name": "@berachain/abis",
-  "version": "0.1.0-beta.6",
+  "version": "0.1.0-beta.7",
   "description": "Typed ABI TypeScript package generated from Solidity artifacts",
   "license": "MIT",
   "type": "module",

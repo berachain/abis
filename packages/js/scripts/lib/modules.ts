@@ -28,7 +28,7 @@ export function artifactToModule(artifact: DiscoveredArtifact, mainSource?: stri
     exportName,
     moduleRelPath,
     dedupeKey: `${artifact.sourceId}:${artifact.contractName}`,
-    moduleContent: `export const ${exportName} = ${abiContent} as const;\n`,
+    moduleContent: `export const ${exportName} = ${abiContent} as const;\n\nexport default ${exportName};\n`,
   };
 }
 
