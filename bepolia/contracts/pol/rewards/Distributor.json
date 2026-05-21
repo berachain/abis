@@ -58,19 +58,6 @@
   },
   {
     "type": "function",
-    "name": "bgt",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "blockRewardController",
     "inputs": [],
     "outputs": [
@@ -78,6 +65,19 @@
         "name": "",
         "type": "address",
         "internalType": "contract IBlockRewardController"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "dedicatedEmissionStreamManager",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IDedicatedEmissionStreamManager"
       }
     ],
     "stateMutability": "view"
@@ -127,6 +127,19 @@
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "emissionToken",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -199,7 +212,7 @@
         "internalType": "address"
       },
       {
-        "name": "_bgt",
+        "name": "_emissionToken",
         "type": "address",
         "internalType": "address"
       },
@@ -329,6 +342,26 @@
   },
   {
     "type": "function",
+    "name": "setDedicatedEmissionStreamManager",
+    "inputs": [
+      {
+        "name": "_dedicatedEmissionStreamManager",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setEmissionToken",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "setProposerIndexGIndex",
     "inputs": [
       {
@@ -405,6 +438,25 @@
   },
   {
     "type": "event",
+    "name": "DedicatedEmissionStreamManagerSet",
+    "inputs": [
+      {
+        "name": "oldDedicatedEmissionStreamManager",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newDedicatedEmissionStreamManager",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
     "name": "Distributed",
     "inputs": [
       {
@@ -430,6 +482,19 @@
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "EmissionTokenSet",
+    "inputs": [
+      {
+        "name": "emissionToken",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
       }
     ],
     "anonymous": false
@@ -750,16 +815,6 @@
   },
   {
     "type": "error",
-    "name": "InvalidBaseRate",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidBoostMultiplier",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidCommissionChangeDelay",
     "inputs": []
   },
@@ -785,7 +840,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidIncentiveFeeRate",
+    "name": "InvalidEmissionPerc",
     "inputs": []
   },
   {
@@ -815,11 +870,6 @@
   },
   {
     "type": "error",
-    "name": "InvalidMinBoostedRewardRate",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidProof",
     "inputs": []
   },
@@ -845,17 +895,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidRewardConvexity",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidRewardDuration",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidRewardRate",
     "inputs": []
   },
   {
@@ -866,6 +906,11 @@
   {
     "type": "error",
     "name": "InvalidStartBlock",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidTargetEmission",
     "inputs": []
   },
   {
@@ -1000,11 +1045,6 @@
   },
   {
     "type": "error",
-    "name": "NotRewardDurationManager",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "NotRewardVaultManager",
     "inputs": []
   },
@@ -1066,11 +1106,6 @@
   {
     "type": "error",
     "name": "RewardCycleNotEnded",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "RewardDurationCoolDownPeriodNotPassed",
     "inputs": []
   },
   {
@@ -1162,11 +1197,6 @@
   {
     "type": "error",
     "name": "ZeroOperatorOnFirstDeposit",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "ZeroPercentageWeight",
     "inputs": []
   }
 ]

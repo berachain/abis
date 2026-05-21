@@ -1,35 +1,79 @@
 [
   {
     "type": "function",
-    "name": "addLstStakerVault",
+    "name": "emissionPerc",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint96",
+        "internalType": "uint96"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMaxEmission",
     "inputs": [
       {
-        "name": "lstStakerVault",
+        "name": "vault",
         "type": "address",
         "internalType": "address"
       },
       {
-        "name": "lstAdapter",
-        "type": "address",
-        "internalType": "address"
+        "name": "emission",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
     "type": "function",
-    "name": "claimFees",
+    "name": "getRewardAllocation",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct IRewardAllocation.Weight[]",
+        "components": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "percentageNumerator",
+            "type": "uint96",
+            "internalType": "uint96"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "notifyEmission",
     "inputs": [
       {
-        "name": "recipient",
+        "name": "vault",
         "type": "address",
         "internalType": "address"
       },
       {
-        "name": "incentiveFeeTokens",
-        "type": "address[]",
-        "internalType": "address[]"
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "outputs": [],
@@ -37,83 +81,38 @@
   },
   {
     "type": "function",
-    "name": "lstAdapters",
+    "name": "setBeraChef",
     "inputs": [
       {
-        "name": "lstStakerVault",
+        "name": "_beraChef",
         "type": "address",
         "internalType": "address"
       }
     ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "stateMutability": "view"
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
     "type": "function",
-    "name": "lstStakerVaults",
+    "name": "setDistributor",
     "inputs": [
       {
-        "name": "index",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
+        "name": "_distributor",
         "type": "address",
         "internalType": "address"
       }
     ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "lstStakerVaultsLength",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "pause",
-    "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
   },
   {
     "type": "function",
-    "name": "payoutAmount",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "queuePayoutAmountChange",
+    "name": "setEmissionPerc",
     "inputs": [
       {
-        "name": "_newPayoutAmount",
-        "type": "uint256",
-        "internalType": "uint256"
+        "name": "_emissionPerc",
+        "type": "uint96",
+        "internalType": "uint96"
       }
     ],
     "outputs": [],
@@ -121,25 +120,24 @@
   },
   {
     "type": "function",
-    "name": "queuedPayoutAmount",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "removeLstStakerVault",
+    "name": "setRewardAllocation",
     "inputs": [
       {
-        "name": "lstStakerVault",
-        "type": "address",
-        "internalType": "address"
+        "name": "_rewardAllocation",
+        "type": "tuple[]",
+        "internalType": "struct IRewardAllocation.Weight[]",
+        "components": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "percentageNumerator",
+            "type": "uint96",
+            "internalType": "uint96"
+          }
+        ]
       }
     ],
     "outputs": [],
@@ -147,42 +145,67 @@
   },
   {
     "type": "function",
-    "name": "unpause",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "wberaStakerVault",
-    "inputs": [],
-    "outputs": [
+    "name": "setTargetEmission",
+    "inputs": [
       {
-        "name": "",
+        "name": "vault",
         "type": "address",
         "internalType": "address"
+      },
+      {
+        "name": "_targetEmission",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
-    "stateMutability": "view"
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
     "type": "event",
-    "name": "IncentiveFeeTokenClaimed",
+    "name": "BeraChefSet",
     "inputs": [
       {
-        "name": "caller",
+        "name": "beraChef",
         "type": "address",
-        "indexed": true,
+        "indexed": false,
         "internalType": "address"
-      },
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "DistributorSet",
+    "inputs": [
       {
-        "name": "recipient",
+        "name": "distributor",
         "type": "address",
-        "indexed": true,
+        "indexed": false,
         "internalType": "address"
-      },
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "EmissionPercSet",
+    "inputs": [
       {
-        "name": "feeToken",
+        "name": "newEmissionPerc",
+        "type": "uint96",
+        "indexed": false,
+        "internalType": "uint96"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "NotifyEmission",
+    "inputs": [
+      {
+        "name": "vault",
         "type": "address",
         "indexed": true,
         "internalType": "address"
@@ -198,111 +221,41 @@
   },
   {
     "type": "event",
-    "name": "IncentiveFeesClaimed",
+    "name": "RewardAllocationSet",
     "inputs": [
       {
-        "name": "caller",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "recipient",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "LstStakerVaultAdded",
-    "inputs": [
-      {
-        "name": "lstStakerVault",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "lstAdapter",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "LstStakerVaultRemoved",
-    "inputs": [
-      {
-        "name": "lstStakerVault",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "PayoutAmountSet",
-    "inputs": [
-      {
-        "name": "oldPayoutAmount",
-        "type": "uint256",
-        "indexed": true,
-        "internalType": "uint256"
-      },
-      {
-        "name": "newPayoutAmount",
-        "type": "uint256",
-        "indexed": true,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "QueuedPayoutAmount",
-    "inputs": [
-      {
-        "name": "queuedPayoutAmount",
-        "type": "uint256",
+        "name": "newRewardAllocation",
+        "type": "tuple[]",
         "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "currentPayoutAmount",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
+        "internalType": "struct IRewardAllocation.Weight[]",
+        "components": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "percentageNumerator",
+            "type": "uint96",
+            "internalType": "uint96"
+          }
+        ]
       }
     ],
     "anonymous": false
   },
   {
     "type": "event",
-    "name": "RewardConverted",
+    "name": "TargetEmissionSet",
     "inputs": [
       {
-        "name": "lstStakerVault",
+        "name": "vault",
         "type": "address",
         "indexed": true,
         "internalType": "address"
       },
       {
-        "name": "amountBera",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "amountLST",
+        "name": "targetEmission",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
