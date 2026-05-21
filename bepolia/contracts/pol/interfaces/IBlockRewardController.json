@@ -14,50 +14,10 @@
   },
   {
     "type": "function",
-    "name": "boostMultiplier",
+    "name": "burnExceedingBalance",
     "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "computeReward",
-    "inputs": [
-      {
-        "name": "boostPower",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "_rewardRate",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "_boostMultiplier",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "_rewardConvexity",
-        "type": "int256",
-        "internalType": "int256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "pure"
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
     "type": "function",
@@ -74,11 +34,11 @@
   },
   {
     "type": "function",
-    "name": "minBoostedRewardRate",
+    "name": "getMaxEmissionPerBlock",
     "inputs": [],
     "outputs": [
       {
-        "name": "",
+        "name": "amount",
         "type": "uint256",
         "internalType": "uint256"
       }
@@ -116,19 +76,6 @@
   },
   {
     "type": "function",
-    "name": "rewardConvexity",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "int256",
-        "internalType": "int256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "rewardRate",
     "inputs": [],
     "outputs": [
@@ -142,77 +89,12 @@
   },
   {
     "type": "function",
-    "name": "setBaseRate",
-    "inputs": [
-      {
-        "name": "_baseRate",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "setBoostMultiplier",
-    "inputs": [
-      {
-        "name": "_boostMultiplier",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
     "name": "setDistributor",
     "inputs": [
       {
         "name": "_distributor",
         "type": "address",
         "internalType": "address"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "setMinBoostedRewardRate",
-    "inputs": [
-      {
-        "name": "_minBoostedRewardRate",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "setRewardConvexity",
-    "inputs": [
-      {
-        "name": "_rewardConvexity",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "setRewardRate",
-    "inputs": [
-      {
-        "name": "_rewardRate",
-        "type": "uint256",
-        "internalType": "uint256"
       }
     ],
     "outputs": [],
@@ -270,54 +152,10 @@
   },
   {
     "type": "event",
-    "name": "BoostMultiplierChanged",
+    "name": "ExceedingBalanceBurnt",
     "inputs": [
       {
-        "name": "oldBoostMultiplier",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "newBoostMultiplier",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "MinBoostedRewardRateChanged",
-    "inputs": [
-      {
-        "name": "oldMinBoostedRewardRate",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "newMinBoostedRewardRate",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "RewardConvexityChanged",
-    "inputs": [
-      {
-        "name": "oldRewardConvexity",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "newRewardConvexity",
+        "name": "amount",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
@@ -480,16 +318,6 @@
   },
   {
     "type": "error",
-    "name": "InvalidBaseRate",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidBoostMultiplier",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidCommissionChangeDelay",
     "inputs": []
   },
@@ -515,7 +343,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidIncentiveFeeRate",
+    "name": "InvalidEmissionPerc",
     "inputs": []
   },
   {
@@ -536,11 +364,6 @@
   {
     "type": "error",
     "name": "InvalidMerkleRoot",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidMinBoostedRewardRate",
     "inputs": []
   },
   {
@@ -570,17 +393,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidRewardConvexity",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidRewardDuration",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidRewardRate",
     "inputs": []
   },
   {
@@ -591,6 +404,11 @@
   {
     "type": "error",
     "name": "InvalidStartBlock",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidTargetEmission",
     "inputs": []
   },
   {
@@ -720,11 +538,6 @@
   },
   {
     "type": "error",
-    "name": "NotRewardDurationManager",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "NotRewardVaultManager",
     "inputs": []
   },
@@ -781,11 +594,6 @@
   {
     "type": "error",
     "name": "RewardCycleNotEnded",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "RewardDurationCoolDownPeriodNotPassed",
     "inputs": []
   },
   {
@@ -861,11 +669,6 @@
   {
     "type": "error",
     "name": "ZeroOperatorOnFirstDeposit",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "ZeroPercentageWeight",
     "inputs": []
   }
 ]

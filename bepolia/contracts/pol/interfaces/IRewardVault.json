@@ -712,68 +712,6 @@
   },
   {
     "type": "event",
-    "name": "BGTBoosterIncentivesProcessFailed",
-    "inputs": [
-      {
-        "name": "pubkey",
-        "type": "bytes",
-        "indexed": true,
-        "internalType": "bytes"
-      },
-      {
-        "name": "token",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "bgtEmitted",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "amount",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "BGTBoosterIncentivesProcessed",
-    "inputs": [
-      {
-        "name": "pubkey",
-        "type": "bytes",
-        "indexed": true,
-        "internalType": "bytes"
-      },
-      {
-        "name": "token",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "bgtEmitted",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "amount",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
     "name": "DelegateStaked",
     "inputs": [
       {
@@ -868,44 +806,6 @@
   },
   {
     "type": "event",
-    "name": "IncentiveFeeCollected",
-    "inputs": [
-      {
-        "name": "token",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "amount",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "IncentiveFeeCollectionFailed",
-    "inputs": [
-      {
-        "name": "token",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "amount",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
     "name": "IncentiveManagerChanged",
     "inputs": [
       {
@@ -969,6 +869,68 @@
   },
   {
     "type": "event",
+    "name": "IncentivesCollected",
+    "inputs": [
+      {
+        "name": "pubkey",
+        "type": "bytes",
+        "indexed": true,
+        "internalType": "bytes"
+      },
+      {
+        "name": "token",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "rewardsEmitted",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "IncentivesCollectionFailed",
+    "inputs": [
+      {
+        "name": "pubkey",
+        "type": "bytes",
+        "indexed": true,
+        "internalType": "bytes"
+      },
+      {
+        "name": "token",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "rewardsEmitted",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
     "name": "IncentivesProcessFailed",
     "inputs": [
       {
@@ -984,7 +946,7 @@
         "internalType": "address"
       },
       {
-        "name": "bgtEmitted",
+        "name": "rewardsEmitted",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
@@ -1015,7 +977,7 @@
         "internalType": "address"
       },
       {
-        "name": "bgtEmitted",
+        "name": "rewardsEmitted",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
@@ -1133,6 +1095,25 @@
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RewardTokenMigrated",
+    "inputs": [
+      {
+        "name": "oldToken",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newToken",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
       }
     ],
     "anonymous": false
@@ -1349,16 +1330,6 @@
   },
   {
     "type": "error",
-    "name": "InvalidBaseRate",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidBoostMultiplier",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidCommissionChangeDelay",
     "inputs": []
   },
@@ -1384,7 +1355,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidIncentiveFeeRate",
+    "name": "InvalidEmissionPerc",
     "inputs": []
   },
   {
@@ -1405,11 +1376,6 @@
   {
     "type": "error",
     "name": "InvalidMerkleRoot",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidMinBoostedRewardRate",
     "inputs": []
   },
   {
@@ -1439,17 +1405,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidRewardConvexity",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidRewardDuration",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidRewardRate",
     "inputs": []
   },
   {
@@ -1460,6 +1416,11 @@
   {
     "type": "error",
     "name": "InvalidStartBlock",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidTargetEmission",
     "inputs": []
   },
   {
@@ -1589,11 +1550,6 @@
   },
   {
     "type": "error",
-    "name": "NotRewardDurationManager",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "NotRewardVaultManager",
     "inputs": []
   },
@@ -1650,11 +1606,6 @@
   {
     "type": "error",
     "name": "RewardCycleNotEnded",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "RewardDurationCoolDownPeriodNotPassed",
     "inputs": []
   },
   {
@@ -1730,11 +1681,6 @@
   {
     "type": "error",
     "name": "ZeroOperatorOnFirstDeposit",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "ZeroPercentageWeight",
     "inputs": []
   }
 ]
