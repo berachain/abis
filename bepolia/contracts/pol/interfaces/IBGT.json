@@ -1523,6 +1523,11 @@
   },
   {
     "type": "error",
+    "name": "NotRewardVaultHelper",
+    "inputs": []
+  },
+  {
+    "type": "error",
     "name": "NotRewardVaultManager",
     "inputs": []
   },

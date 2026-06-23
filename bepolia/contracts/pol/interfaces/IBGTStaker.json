@@ -237,6 +237,19 @@
   },
   {
     "type": "function",
+    "name": "stakeToken",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IERC20"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "totalSupply",
     "inputs": [],
     "outputs": [
@@ -745,6 +758,11 @@
   {
     "type": "error",
     "name": "NotRewardAllocator",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotRewardVaultHelper",
     "inputs": []
   },
   {

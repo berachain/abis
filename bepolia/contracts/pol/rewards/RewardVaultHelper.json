@@ -275,6 +275,24 @@
     "stateMutability": "payable"
   },
   {
+    "type": "function",
+    "name": "withdrawAllFromVaults",
+    "inputs": [
+      {
+        "name": "vaults",
+        "type": "address[]",
+        "internalType": "address[]"
+      },
+      {
+        "name": "receiver",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
     "type": "event",
     "name": "Initialized",
     "inputs": [
@@ -815,6 +833,11 @@
   {
     "type": "error",
     "name": "NotRewardAllocator",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotRewardVaultHelper",
     "inputs": []
   },
   {
