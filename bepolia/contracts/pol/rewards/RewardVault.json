@@ -986,6 +986,25 @@
     "stateMutability": "nonpayable"
   },
   {
+    "type": "function",
+    "name": "withdrawAllFor",
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "selfStakedAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
     "type": "event",
     "name": "DelegateStaked",
     "inputs": [
@@ -1880,6 +1899,11 @@
   {
     "type": "error",
     "name": "NotRewardAllocator",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotRewardVaultHelper",
     "inputs": []
   },
   {

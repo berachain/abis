@@ -35,7 +35,7 @@
         ]
       },
       {
-        "name": "bgtIncentiveFeeCollectorSalt",
+        "name": "incentivesCollectorSalt",
         "type": "tuple",
         "internalType": "struct Salt",
         "components": [
@@ -95,13 +95,13 @@
   },
   {
     "type": "function",
-    "name": "bgtIncentiveFeeCollector",
+    "name": "incentivesCollector",
     "inputs": [],
     "outputs": [
       {
         "name": "",
         "type": "address",
-        "internalType": "contract BGTIncentiveFeeCollector"
+        "internalType": "contract IncentivesCollector"
       }
     ],
     "stateMutability": "view"

@@ -89,6 +89,24 @@
   },
   {
     "type": "function",
+    "name": "claim",
+    "inputs": [
+      {
+        "name": "_recipient",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_incentiveTokens",
+        "type": "address[]",
+        "internalType": "address[]"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "claimFees",
     "inputs": [
       {
@@ -420,7 +438,7 @@
   },
   {
     "type": "event",
-    "name": "IncentiveFeeTokenClaimed",
+    "name": "IncentiveTokenClaimed",
     "inputs": [
       {
         "name": "caller",
@@ -435,7 +453,7 @@
         "internalType": "address"
       },
       {
-        "name": "feeToken",
+        "name": "incentiveToken",
         "type": "address",
         "indexed": true,
         "internalType": "address"
@@ -451,7 +469,7 @@
   },
   {
     "type": "event",
-    "name": "IncentiveFeesClaimed",
+    "name": "IncentivesClaimed",
     "inputs": [
       {
         "name": "caller",
@@ -1102,6 +1120,11 @@
   {
     "type": "error",
     "name": "NotRewardAllocator",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotRewardVaultHelper",
     "inputs": []
   },
   {
