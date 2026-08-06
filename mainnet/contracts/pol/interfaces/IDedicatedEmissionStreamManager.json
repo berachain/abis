@@ -1,238 +1,217 @@
 [
   {
     "type": "function",
-    "name": "acceptOperatorChange",
-    "inputs": [
-      {
-        "name": "pubkey",
-        "type": "bytes",
-        "internalType": "bytes"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "cancelOperatorChange",
-    "inputs": [
-      {
-        "name": "pubkey",
-        "type": "bytes",
-        "internalType": "bytes"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "deposit",
-    "inputs": [
-      {
-        "name": "pubkey",
-        "type": "bytes",
-        "internalType": "bytes"
-      },
-      {
-        "name": "credentials",
-        "type": "bytes",
-        "internalType": "bytes"
-      },
-      {
-        "name": "signature",
-        "type": "bytes",
-        "internalType": "bytes"
-      },
-      {
-        "name": "operator",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "payable"
-  },
-  {
-    "type": "function",
-    "name": "depositCount",
+    "name": "emissionPerc",
     "inputs": [],
     "outputs": [
       {
         "name": "",
-        "type": "uint64",
-        "internalType": "uint64"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "genesisDepositsRoot",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "getOperator",
-    "inputs": [
-      {
-        "name": "pubkey",
-        "type": "bytes",
-        "internalType": "bytes"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "queuedOperator",
-    "inputs": [
-      {
-        "name": "",
-        "type": "bytes",
-        "internalType": "bytes"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "queuedTimestamp",
         "type": "uint96",
         "internalType": "uint96"
-      },
-      {
-        "name": "newOperator",
-        "type": "address",
-        "internalType": "address"
       }
     ],
     "stateMutability": "view"
   },
   {
     "type": "function",
-    "name": "requestOperatorChange",
+    "name": "getMaxEmission",
     "inputs": [
       {
-        "name": "pubkey",
-        "type": "bytes",
-        "internalType": "bytes"
-      },
-      {
-        "name": "newOperator",
+        "name": "vault",
         "type": "address",
         "internalType": "address"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "supportsInterface",
-    "inputs": [
+      },
       {
-        "name": "interfaceId",
-        "type": "bytes4",
-        "internalType": "bytes4"
+        "name": "emission",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "outputs": [
       {
         "name": "",
-        "type": "bool",
-        "internalType": "bool"
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
-    "stateMutability": "pure"
+    "stateMutability": "view"
   },
   {
-    "type": "event",
-    "name": "Deposit",
+    "type": "function",
+    "name": "getRewardAllocation",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct IRewardAllocation.Weight[]",
+        "components": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "percentageNumerator",
+            "type": "uint96",
+            "internalType": "uint96"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "notifyEmission",
     "inputs": [
       {
-        "name": "pubkey",
-        "type": "bytes",
-        "indexed": false,
-        "internalType": "bytes"
-      },
-      {
-        "name": "credentials",
-        "type": "bytes",
-        "indexed": false,
-        "internalType": "bytes"
+        "name": "vault",
+        "type": "address",
+        "internalType": "address"
       },
       {
         "name": "amount",
-        "type": "uint64",
-        "indexed": false,
-        "internalType": "uint64"
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setBeraChef",
+    "inputs": [
+      {
+        "name": "_beraChef",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setDistributor",
+    "inputs": [
+      {
+        "name": "_distributor",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setEmissionPerc",
+    "inputs": [
+      {
+        "name": "_emissionPerc",
+        "type": "uint96",
+        "internalType": "uint96"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setRewardAllocation",
+    "inputs": [
+      {
+        "name": "_rewardAllocation",
+        "type": "tuple[]",
+        "internalType": "struct IRewardAllocation.Weight[]",
+        "components": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "percentageNumerator",
+            "type": "uint96",
+            "internalType": "uint96"
+          }
+        ]
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setTargetEmission",
+    "inputs": [
+      {
+        "name": "vault",
+        "type": "address",
+        "internalType": "address"
       },
       {
-        "name": "signature",
-        "type": "bytes",
-        "indexed": false,
-        "internalType": "bytes"
-      },
+        "name": "_targetEmission",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "BeraChefSet",
+    "inputs": [
       {
-        "name": "index",
-        "type": "uint64",
+        "name": "beraChef",
+        "type": "address",
         "indexed": false,
-        "internalType": "uint64"
+        "internalType": "address"
       }
     ],
     "anonymous": false
   },
   {
     "type": "event",
-    "name": "OperatorChangeCancelled",
+    "name": "DistributorSet",
     "inputs": [
       {
-        "name": "pubkey",
-        "type": "bytes",
-        "indexed": true,
-        "internalType": "bytes"
+        "name": "distributor",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
       }
     ],
     "anonymous": false
   },
   {
     "type": "event",
-    "name": "OperatorChangeQueued",
+    "name": "EmissionPercSet",
     "inputs": [
       {
-        "name": "pubkey",
-        "type": "bytes",
+        "name": "newEmissionPerc",
+        "type": "uint96",
+        "indexed": false,
+        "internalType": "uint96"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "NotifyEmission",
+    "inputs": [
+      {
+        "name": "vault",
+        "type": "address",
         "indexed": true,
-        "internalType": "bytes"
-      },
-      {
-        "name": "queuedOperator",
-        "type": "address",
-        "indexed": false,
         "internalType": "address"
       },
       {
-        "name": "currentOperator",
-        "type": "address",
-        "indexed": false,
-        "internalType": "address"
-      },
-      {
-        "name": "queuedTimestamp",
+        "name": "amount",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
@@ -242,25 +221,44 @@
   },
   {
     "type": "event",
-    "name": "OperatorUpdated",
+    "name": "RewardAllocationSet",
     "inputs": [
       {
-        "name": "pubkey",
-        "type": "bytes",
+        "name": "newRewardAllocation",
+        "type": "tuple[]",
+        "indexed": false,
+        "internalType": "struct IRewardAllocation.Weight[]",
+        "components": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "percentageNumerator",
+            "type": "uint96",
+            "internalType": "uint96"
+          }
+        ]
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "TargetEmissionSet",
+    "inputs": [
+      {
+        "name": "vault",
+        "type": "address",
         "indexed": true,
-        "internalType": "bytes"
-      },
-      {
-        "name": "newOperator",
-        "type": "address",
-        "indexed": false,
         "internalType": "address"
       },
       {
-        "name": "previousOperator",
-        "type": "address",
+        "name": "targetEmission",
+        "type": "uint256",
         "indexed": false,
-        "internalType": "address"
+        "internalType": "uint256"
       }
     ],
     "anonymous": false

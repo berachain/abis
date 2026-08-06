@@ -263,6 +263,19 @@
   },
   {
     "type": "function",
+    "name": "recoverERC20",
+    "inputs": [
+      {
+        "name": "tokens",
+        "type": "address[]",
+        "internalType": "address[]"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "renounceRole",
     "inputs": [
       {
@@ -774,16 +787,6 @@
   },
   {
     "type": "error",
-    "name": "InvalidBaseRate",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidBoostMultiplier",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidCommissionChangeDelay",
     "inputs": []
   },
@@ -809,7 +812,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidIncentiveFeeRate",
+    "name": "InvalidEmissionPerc",
     "inputs": []
   },
   {
@@ -839,11 +842,6 @@
   },
   {
     "type": "error",
-    "name": "InvalidMinBoostedRewardRate",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidProof",
     "inputs": []
   },
@@ -869,17 +867,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidRewardConvexity",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidRewardDuration",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidRewardRate",
     "inputs": []
   },
   {
@@ -890,6 +878,11 @@
   {
     "type": "error",
     "name": "InvalidStartBlock",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidTargetEmission",
     "inputs": []
   },
   {
@@ -1024,7 +1017,7 @@
   },
   {
     "type": "error",
-    "name": "NotRewardDurationManager",
+    "name": "NotRewardVaultHelper",
     "inputs": []
   },
   {
@@ -1085,11 +1078,6 @@
   {
     "type": "error",
     "name": "RewardCycleNotEnded",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "RewardDurationCoolDownPeriodNotPassed",
     "inputs": []
   },
   {
@@ -1192,11 +1180,6 @@
   {
     "type": "error",
     "name": "ZeroOperatorOnFirstDeposit",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "ZeroPercentageWeight",
     "inputs": []
   }
 ]
