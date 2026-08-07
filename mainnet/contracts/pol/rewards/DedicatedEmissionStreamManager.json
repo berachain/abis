@@ -1,68 +1,80 @@
 [
   {
+    "type": "constructor",
+    "inputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
     "type": "function",
-    "name": "allocateIncentiveToValidator",
-    "inputs": [
+    "name": "ALLOCATION_MANAGER_ROLE",
+    "inputs": [],
+    "outputs": [
       {
-        "name": "token",
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "DEFAULT_ADMIN_ROLE",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "ONE_HUNDRED_PERCENT",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint96",
+        "internalType": "uint96"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "UPGRADE_INTERFACE_VERSION",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "beraChef",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
         "type": "address",
         "internalType": "address"
-      },
-      {
-        "name": "amount",
-        "type": "uint256",
-        "internalType": "uint256"
       }
     ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
+    "stateMutability": "view"
   },
   {
     "type": "function",
-    "name": "claim",
+    "name": "debt",
     "inputs": [
       {
-        "name": "_claims",
-        "type": "tuple[]",
-        "internalType": "struct IBGTIncentiveDistributor.Claim[]",
-        "components": [
-          {
-            "name": "identifier",
-            "type": "bytes32",
-            "internalType": "bytes32"
-          },
-          {
-            "name": "account",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "amount",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "merkleProof",
-            "type": "bytes32[]",
-            "internalType": "bytes32[]"
-          }
-        ]
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "incentiveTokensPerValidator",
-    "inputs": [
-      {
-        "name": "pubkey",
-        "type": "bytes",
-        "internalType": "bytes"
-      },
-      {
-        "name": "token",
+        "name": "",
         "type": "address",
         "internalType": "address"
       }
@@ -78,20 +90,174 @@
   },
   {
     "type": "function",
-    "name": "receiveIncentive",
+    "name": "distributor",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "emissionPerc",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint96",
+        "internalType": "uint96"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMaxEmission",
     "inputs": [
       {
-        "name": "pubkey",
-        "type": "bytes",
-        "internalType": "bytes"
-      },
-      {
-        "name": "token",
+        "name": "vault",
         "type": "address",
         "internalType": "address"
       },
       {
-        "name": "_amount",
+        "name": "emission",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRewardAllocation",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct IRewardAllocation.Weight[]",
+        "components": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "percentageNumerator",
+            "type": "uint96",
+            "internalType": "uint96"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRoleAdmin",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "grantRole",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "hasRole",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "initialize",
+    "inputs": [
+      {
+        "name": "_governance",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_distributor",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "_beraChef",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "notifyEmission",
+    "inputs": [
+      {
+        "name": "vault",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
         "type": "uint256",
         "internalType": "uint256"
       }
@@ -101,12 +267,30 @@
   },
   {
     "type": "function",
-    "name": "setLastAggregationTimestamp",
+    "name": "proxiableUUID",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "renounceRole",
     "inputs": [
       {
-        "name": "timestamp_",
-        "type": "uint64",
-        "internalType": "uint64"
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "callerConfirmation",
+        "type": "address",
+        "internalType": "address"
       }
     ],
     "outputs": [],
@@ -114,12 +298,17 @@
   },
   {
     "type": "function",
-    "name": "setPauseState",
+    "name": "revokeRole",
     "inputs": [
       {
-        "name": "state",
-        "type": "bool",
-        "internalType": "bool"
+        "name": "role",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
       }
     ],
     "outputs": [],
@@ -127,12 +316,12 @@
   },
   {
     "type": "function",
-    "name": "setRewardClaimDelay",
+    "name": "setBeraChef",
     "inputs": [
       {
-        "name": "_delay",
-        "type": "uint64",
-        "internalType": "uint64"
+        "name": "_beraChef",
+        "type": "address",
+        "internalType": "address"
       }
     ],
     "outputs": [],
@@ -140,37 +329,48 @@
   },
   {
     "type": "function",
-    "name": "updateRewardsMetadata",
+    "name": "setDistributor",
     "inputs": [
       {
-        "name": "_distributions",
+        "name": "_distributor",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setEmissionPerc",
+    "inputs": [
+      {
+        "name": "_emissionPerc",
+        "type": "uint96",
+        "internalType": "uint96"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setRewardAllocation",
+    "inputs": [
+      {
+        "name": "newRewardAllocation",
         "type": "tuple[]",
-        "internalType": "struct IBGTIncentiveDistributor.Distribution[]",
+        "internalType": "struct IRewardAllocation.Weight[]",
         "components": [
           {
-            "name": "identifier",
-            "type": "bytes32",
-            "internalType": "bytes32"
-          },
-          {
-            "name": "pubkey",
-            "type": "bytes",
-            "internalType": "bytes"
-          },
-          {
-            "name": "token",
+            "name": "receiver",
             "type": "address",
             "internalType": "address"
           },
           {
-            "name": "merkleRoot",
-            "type": "bytes32",
-            "internalType": "bytes32"
-          },
-          {
-            "name": "proof",
-            "type": "bytes32",
-            "internalType": "bytes32"
+            "name": "percentageNumerator",
+            "type": "uint96",
+            "internalType": "uint96"
           }
         ]
       }
@@ -179,17 +379,137 @@
     "stateMutability": "nonpayable"
   },
   {
-    "type": "event",
-    "name": "IncentiveAllocated",
+    "type": "function",
+    "name": "setTargetEmission",
     "inputs": [
       {
-        "name": "pubkey",
-        "type": "bytes",
-        "indexed": true,
-        "internalType": "bytes"
+        "name": "vault",
+        "type": "address",
+        "internalType": "address"
       },
       {
-        "name": "token",
+        "name": "_targetEmission",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "supportsInterface",
+    "inputs": [
+      {
+        "name": "interfaceId",
+        "type": "bytes4",
+        "internalType": "bytes4"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "targetEmission",
+    "inputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "upgradeToAndCall",
+    "inputs": [
+      {
+        "name": "newImplementation",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "data",
+        "type": "bytes",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "event",
+    "name": "BeraChefSet",
+    "inputs": [
+      {
+        "name": "beraChef",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "DistributorSet",
+    "inputs": [
+      {
+        "name": "distributor",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "EmissionPercSet",
+    "inputs": [
+      {
+        "name": "newEmissionPerc",
+        "type": "uint96",
+        "indexed": false,
+        "internalType": "uint96"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Initialized",
+    "inputs": [
+      {
+        "name": "version",
+        "type": "uint64",
+        "indexed": false,
+        "internalType": "uint64"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "NotifyEmission",
+    "inputs": [
+      {
+        "name": "vault",
         "type": "address",
         "indexed": true,
         "internalType": "address"
@@ -205,70 +525,63 @@
   },
   {
     "type": "event",
-    "name": "IncentiveReceived",
+    "name": "RewardAllocationSet",
     "inputs": [
       {
-        "name": "pubkey",
-        "type": "bytes",
-        "indexed": true,
-        "internalType": "bytes"
-      },
-      {
-        "name": "token",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "amount",
-        "type": "uint256",
+        "name": "newRewardAllocation",
+        "type": "tuple[]",
         "indexed": false,
-        "internalType": "uint256"
+        "internalType": "struct IRewardAllocation.Weight[]",
+        "components": [
+          {
+            "name": "receiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "percentageNumerator",
+            "type": "uint96",
+            "internalType": "uint96"
+          }
+        ]
       }
     ],
     "anonymous": false
   },
   {
     "type": "event",
-    "name": "LastAggregationTimestampSet",
+    "name": "RoleAdminChanged",
     "inputs": [
       {
-        "name": "timestamp",
-        "type": "uint64",
-        "indexed": false,
-        "internalType": "uint64"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "RewardClaimDelaySet",
-    "inputs": [
-      {
-        "name": "delay",
-        "type": "uint64",
-        "indexed": false,
-        "internalType": "uint64"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "RewardClaimed",
-    "inputs": [
-      {
-        "name": "identifier",
+        "name": "role",
         "type": "bytes32",
         "indexed": true,
         "internalType": "bytes32"
       },
       {
-        "name": "token",
-        "type": "address",
+        "name": "previousAdminRole",
+        "type": "bytes32",
         "indexed": true,
-        "internalType": "address"
+        "internalType": "bytes32"
+      },
+      {
+        "name": "newAdminRole",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RoleGranted",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
       },
       {
         "name": "account",
@@ -277,13 +590,51 @@
         "internalType": "address"
       },
       {
-        "name": "pubkey",
-        "type": "bytes",
-        "indexed": false,
-        "internalType": "bytes"
+        "name": "sender",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RoleRevoked",
+    "inputs": [
+      {
+        "name": "role",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
       },
       {
-        "name": "amount",
+        "name": "account",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "sender",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "TargetEmissionSet",
+    "inputs": [
+      {
+        "name": "vault",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "targetEmission",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
@@ -293,46 +644,48 @@
   },
   {
     "type": "event",
-    "name": "RewardMetadataUpdated",
+    "name": "Upgraded",
     "inputs": [
       {
-        "name": "identifier",
-        "type": "bytes32",
-        "indexed": true,
-        "internalType": "bytes32"
-      },
-      {
-        "name": "pubkey",
-        "type": "bytes",
-        "indexed": true,
-        "internalType": "bytes"
-      },
-      {
-        "name": "token",
+        "name": "implementation",
         "type": "address",
         "indexed": true,
         "internalType": "address"
-      },
-      {
-        "name": "merkleRoot",
-        "type": "bytes32",
-        "indexed": false,
-        "internalType": "bytes32"
-      },
-      {
-        "name": "proof",
-        "type": "bytes32",
-        "indexed": false,
-        "internalType": "bytes32"
-      },
-      {
-        "name": "activeAt",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
       }
     ],
     "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "AccessControlBadConfirmation",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "AccessControlUnauthorizedAccount",
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "neededRole",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "AddressEmptyCode",
+    "inputs": [
+      {
+        "name": "target",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
   },
   {
     "type": "error",
@@ -398,6 +751,27 @@
   {
     "type": "error",
     "name": "DurationChangeNotAllowed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ERC1967InvalidImplementation",
+    "inputs": [
+      {
+        "name": "implementation",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "ERC1967NonPayable",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "FailedCall",
     "inputs": []
   },
   {
@@ -488,6 +862,11 @@
   {
     "type": "error",
     "name": "InvalidIncentiveRate",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidInitialization",
     "inputs": []
   },
   {
@@ -662,6 +1041,11 @@
   },
   {
     "type": "error",
+    "name": "NotInitializing",
+    "inputs": []
+  },
+  {
+    "type": "error",
     "name": "NotNewOperator",
     "inputs": []
   },
@@ -779,6 +1163,22 @@
     "type": "error",
     "name": "TotalSupplyOverflow",
     "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "UUPSUnauthorizedCallContext",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "UUPSUnsupportedProxiableUUID",
+    "inputs": [
+      {
+        "name": "slot",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ]
   },
   {
     "type": "error",

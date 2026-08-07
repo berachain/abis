@@ -5,6 +5,10 @@
     "stateMutability": "nonpayable"
   },
   {
+    "type": "receive",
+    "stateMutability": "payable"
+  },
+  {
     "type": "function",
     "name": "DEFAULT_ADMIN_ROLE",
     "inputs": [],
@@ -29,6 +33,42 @@
       }
     ],
     "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "WBERA_ADDRESS",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address payable"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "claimAllRewards",
+    "inputs": [
+      {
+        "name": "vaults",
+        "type": "address[]",
+        "internalType": "address[]"
+      },
+      {
+        "name": "receiver",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "outputToken",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
     "type": "function",
@@ -173,6 +213,32 @@
   },
   {
     "type": "function",
+    "name": "sWBERA",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setSWBERA",
+    "inputs": [
+      {
+        "name": "_sWBERA",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "supportsInterface",
     "inputs": [
       {
@@ -209,6 +275,24 @@
     "stateMutability": "payable"
   },
   {
+    "type": "function",
+    "name": "withdrawAllFromVaults",
+    "inputs": [
+      {
+        "name": "vaults",
+        "type": "address[]",
+        "internalType": "address[]"
+      },
+      {
+        "name": "receiver",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
     "type": "event",
     "name": "Initialized",
     "inputs": [
@@ -217,6 +301,31 @@
         "type": "uint64",
         "indexed": false,
         "internalType": "uint64"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RewardsClaimed",
+    "inputs": [
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "receiver",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "outputToken",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
       }
     ],
     "anonymous": false
@@ -291,6 +400,19 @@
         "name": "sender",
         "type": "address",
         "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SWBERASet",
+    "inputs": [
+      {
+        "name": "sWBERA",
+        "type": "address",
+        "indexed": false,
         "internalType": "address"
       }
     ],
@@ -485,16 +607,6 @@
   },
   {
     "type": "error",
-    "name": "InvalidBaseRate",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidBoostMultiplier",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidCommissionChangeDelay",
     "inputs": []
   },
@@ -520,7 +632,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidIncentiveFeeRate",
+    "name": "InvalidEmissionPerc",
     "inputs": []
   },
   {
@@ -550,11 +662,6 @@
   },
   {
     "type": "error",
-    "name": "InvalidMinBoostedRewardRate",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidProof",
     "inputs": []
   },
@@ -580,17 +687,7 @@
   },
   {
     "type": "error",
-    "name": "InvalidRewardConvexity",
-    "inputs": []
-  },
-  {
-    "type": "error",
     "name": "InvalidRewardDuration",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidRewardRate",
     "inputs": []
   },
   {
@@ -601,6 +698,11 @@
   {
     "type": "error",
     "name": "InvalidStartBlock",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidTargetEmission",
     "inputs": []
   },
   {
@@ -735,7 +837,7 @@
   },
   {
     "type": "error",
-    "name": "NotRewardDurationManager",
+    "name": "NotRewardVaultHelper",
     "inputs": []
   },
   {
@@ -796,11 +898,6 @@
   {
     "type": "error",
     "name": "RewardCycleNotEnded",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "RewardDurationCoolDownPeriodNotPassed",
     "inputs": []
   },
   {
@@ -892,11 +989,6 @@
   {
     "type": "error",
     "name": "ZeroOperatorOnFirstDeposit",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "ZeroPercentageWeight",
     "inputs": []
   }
 ]
