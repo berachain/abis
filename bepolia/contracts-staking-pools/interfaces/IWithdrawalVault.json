@@ -174,6 +174,24 @@
   },
   {
     "type": "function",
+    "name": "retryFullExit",
+    "inputs": [
+      {
+        "name": "pubkey",
+        "type": "bytes",
+        "internalType": "bytes"
+      },
+      {
+        "name": "maxFeeToPay",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
     "name": "unpause",
     "inputs": [],
     "outputs": [],
@@ -200,6 +218,19 @@
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "FullExitRequestRetried",
+    "inputs": [
+      {
+        "name": "pubkey",
+        "type": "bytes",
+        "indexed": false,
+        "internalType": "bytes"
       }
     ],
     "anonymous": false
@@ -281,7 +312,17 @@
   },
   {
     "type": "error",
+    "name": "NotFullyExited",
+    "inputs": []
+  },
+  {
+    "type": "error",
     "name": "OverpaidFee",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "PendingWithdrawalInFlight",
     "inputs": []
   },
   {
