@@ -64,6 +64,11 @@
         "name": "assets",
         "type": "uint256",
         "internalType": "uint256"
+      },
+      {
+        "name": "coveredByOperator",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "outputs": [
@@ -306,6 +311,17 @@
     "type": "error",
     "name": "StakingPoolFullExited",
     "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "UnauthorizedRewardsSender",
+    "inputs": [
+      {
+        "name": "sender",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
   },
   {
     "type": "error",

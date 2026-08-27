@@ -49,6 +49,19 @@
   },
   {
     "type": "function",
+    "name": "WITHDRAWAL_FLIGHT_BLOCK_DELAY",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "WITHDRAWAL_REQUEST_FINALIZATION_BLOCK_DELAY",
     "inputs": [],
     "outputs": [
@@ -325,6 +338,25 @@
   },
   {
     "type": "function",
+    "name": "lastPartialWithdrawalRequestBlock",
+    "inputs": [
+      {
+        "name": "",
+        "type": "bytes",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "name",
     "inputs": [],
     "outputs": [
@@ -498,6 +530,24 @@
         "internalType": "uint256"
       }
     ],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "retryFullExit",
+    "inputs": [
+      {
+        "name": "pubkey",
+        "type": "bytes",
+        "internalType": "bytes"
+      },
+      {
+        "name": "maxFeeToPay",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
     "stateMutability": "payable"
   },
   {
@@ -877,6 +927,19 @@
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "FullExitRequestRetried",
+    "inputs": [
+      {
+        "name": "pubkey",
+        "type": "bytes",
+        "indexed": false,
+        "internalType": "bytes"
       }
     ],
     "anonymous": false
@@ -1331,12 +1394,22 @@
   },
   {
     "type": "error",
+    "name": "NotFullyExited",
+    "inputs": []
+  },
+  {
+    "type": "error",
     "name": "NotInitializing",
     "inputs": []
   },
   {
     "type": "error",
     "name": "OverpaidFee",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "PendingWithdrawalInFlight",
     "inputs": []
   },
   {
